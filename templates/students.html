@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>All Students - EduPredict</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+:root{--primary:#667eea;--secondary:#764ba2;--grad:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--gold:#ffd700;--bg:#f4f7fc;--white:#ffffff;--shadow:0 2px 10px rgba(0,0,0,0.08);--text:#333;--muted:#666;--border:#f0f0f0;--red:#ff4d4d;--orange:#ffa700;--yellow:#ffc107;--green:#28a745;--red-bg:#ffe5e5;--orange-bg:#fff3cd;--yellow-bg:#fff8e1;--green-bg:#d4edda;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex}
+.sidebar{position:fixed;top:0;left:0;width:260px;height:100vh;background:var(--grad);display:flex;flex-direction:column;z-index:200;overflow:hidden}
+.sidebar::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(255,255,255,0.08) 0%,transparent 50%);pointer-events:none}
+.sb-logo{padding:26px 22px 20px;border-bottom:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;gap:12px}
+.sb-logo-icon{width:42px;height:42px;background:rgba(255,255,255,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;border:1px solid rgba(255,255,255,0.2)}
+.sb-brand{font-size:20px;font-weight:700;color:#fff}.sb-sub{font-size:11px;color:rgba(255,255,255,0.55)}
+.sb-body{flex:1;padding:14px 12px;overflow-y:auto}
+.sb-section{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,0.4);padding:14px 12px 7px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;cursor:pointer;color:rgba(255,255,255,0.72);font-size:13.5px;font-weight:500;text-decoration:none;transition:all .22s;margin-bottom:3px;position:relative}
+.nav-item i{width:18px;text-align:center;color:var(--gold);font-size:13px}
+.nav-item:hover{background:rgba(255,255,255,0.15);color:#fff;transform:translateX(4px)}
+.nav-item.active{background:rgba(255,255,255,0.22);color:#fff;font-weight:600}
+.nav-item.active::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:3px;background:var(--gold);border-radius:0 4px 4px 0}
+.sb-foot{padding:14px 12px;border-top:1px solid rgba(255,255,255,0.15)}
+.user-row{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px}
+.user-ava{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.user-name{font-size:13px;font-weight:600;color:#fff}.user-role{font-size:11px;color:rgba(255,255,255,0.5)}
+.main{margin-left:260px;flex:1;min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--white);padding:16px 30px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:sticky;top:0;z-index:100}
+.topbar h2{font-size:20px;font-weight:700}.topbar h2 i{color:var(--primary);margin-right:9px}
+.topbar p{font-size:13px;color:var(--muted);margin:0}
+.page{padding:26px 30px;flex:1}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-bottom:26px}
+.scard{background:var(--white);border-radius:12px;padding:20px;box-shadow:var(--shadow);border-top:4px solid transparent;transition:all .28s}
+.scard:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(102,126,234,0.18)}
+.scard.total{border-color:var(--primary)}.scard.critical{border-color:var(--red)}.scard.high{border-color:var(--orange)}.scard.moderate{border-color:var(--yellow)}.scard.safe{border-color:var(--green)}
+.slabel{font-size:11px;font-weight:600;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.snum{font-size:34px;font-weight:800;line-height:1;margin-bottom:6px}
+.scard.total .snum{color:var(--primary)}.scard.critical .snum{color:var(--red)}.scard.high .snum{color:var(--orange)}.scard.moderate .snum{color:var(--yellow)}.scard.safe .snum{color:var(--green)}
+.card{background:var(--white);border-radius:12px;padding:24px;box-shadow:var(--shadow)}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--border)}
+.card-title{font-size:15px;font-weight:700;display:flex;align-items:center;gap:9px}
+.search-bar{display:flex;gap:10px;margin-bottom:18px}
+.search-input{flex:1;padding:10px 14px;border:2px solid var(--border);border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;outline:none;transition:.2s}
+.search-input:focus{border-color:var(--primary)}
+.filter-select{padding:10px 14px;border:2px solid var(--border);border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;outline:none;cursor:pointer}
+table{width:100%;border-collapse:collapse}
+thead th{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);padding:0 14px 12px;text-align:left}
+tbody td{padding:12px 14px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle}
+.stu-ava{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;border:2px solid transparent}
+.stu-cell{display:flex;align-items:center;gap:10px}
+.stu-name{font-weight:600;font-size:13px}.stu-sub{font-size:11px;color:var(--muted)}
+.rbadge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
+.rbadge.CRITICAL{background:var(--red-bg);color:var(--red)}.rbadge.HIGH{background:var(--orange-bg);color:var(--orange)}.rbadge.MODERATE{background:var(--yellow-bg);color:#c68a00}.rbadge.SAFE{background:var(--green-bg);color:var(--green)}
+.btn-sm{padding:6px 12px;border-radius:6px;border:none;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:all .2s}
+.btn-danger{background:#ffe5e5;color:var(--red)}.btn-danger:hover{background:var(--red);color:#fff}
+.btn-info{background:#eef0ff;color:var(--primary)}.btn-info:hover{background:var(--primary);color:#fff}
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-state i{font-size:48px;margin-bottom:16px;opacity:.3}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon"><i class="fas fa-graduation-cap" style="color:var(--gold)"></i></div>
+    <div><div class="sb-brand">EduPredict</div><div class="sb-sub">Early Warning System</div></div>
+  </div>
+  <div class="sb-body">
+    <div class="sb-section">Main Menu</div>
+    <a class="nav-item" href="/dashboard"><i class="fas fa-home"></i> <span>Dashboard</span></a>
+    <a class="nav-item" href="/predict"><i class="fas fa-plus-circle"></i> <span>New Prediction</span></a>
+    <a class="nav-item active" href="/students"><i class="fas fa-users"></i> <span>All Students</span></a>
+    <div class="sb-section">Monitor</div>
+    <a class="nav-item" href="/alerts"><i class="fas fa-bell"></i> <span>Alerts</span></a>
+    <a class="nav-item" href="/analytics"><i class="fas fa-chart-bar"></i> <span>Analytics</span></a>
+    <a class="nav-item" href="/reports"><i class="fas fa-file-alt"></i> <span>Reports</span></a>
+    <div class="sb-section">Account</div>
+    <a class="nav-item" href="/settings"><i class="fas fa-cog"></i> <span>Settings</span></a>
+    <a class="nav-item" href="/logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+  </div>
+  <div class="sb-foot">
+    <div class="user-row">
+      <div class="user-ava">{{ (user.firstname or 'U')[0]|upper }}</div>
+      <div><div class="user-name">{{ user.firstname or '' }}</div><div class="user-role">{{ (user.role or 'teacher')|title }}</div></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <h2><i class="fas fa-users"></i>All Students</h2>
+      <p>{{ stats.total }} students in database</p>
+    </div>
+    <a href="/predict" style="background:var(--grad);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;box-shadow:0 4px 12px rgba(102,126,234,0.35)">
+      <i class="fas fa-plus"></i> New Prediction
+    </a>
+  </div>
+
+  <div class="page">
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="scard total"><div class="slabel">Total</div><div class="snum">{{ stats.total }}</div></div>
+      <div class="scard critical"><div class="slabel">Critical</div><div class="snum">{{ stats.CRITICAL }}</div></div>
+      <div class="scard high"><div class="slabel">High</div><div class="snum">{{ stats.HIGH }}</div></div>
+      <div class="scard moderate"><div class="slabel">Moderate</div><div class="snum">{{ stats.MODERATE }}</div></div>
+      <div class="scard safe"><div class="slabel">Safe</div><div class="snum">{{ stats.SAFE }}</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title"><i class="fas fa-list" style="color:var(--primary)"></i> Student Records</div>
+      </div>
+      <div class="search-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search by name..." onkeyup="filterTable()"/>
+        <select class="filter-select" id="riskFilter" onchange="filterTable()">
+          <option value="">All Risk Levels</option>
+          <option value="CRITICAL">Critical</option>
+          <option value="HIGH">High</option>
+          <option value="MODERATE">Moderate</option>
+          <option value="SAFE">Safe</option>
+        </select>
+      </div>
+
+      {% if students %}
+      <table id="studentsTable">
+        <thead>
+          <tr>
+            <th>#</th><th>Student</th><th>Class</th><th>Attendance</th>
+            <th>Grade</th><th>Risk Score</th><th>Risk Level</th>
+            <th>Date</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in students %}
+          {% set colors = {'CRITICAL':('#ff4d4d','#ffe5e5'),'HIGH':('#ffa700','#fff3cd'),'MODERATE':('#ffc107','#fff8e1'),'SAFE':('#28a745','#d4edda')} %}
+          {% set clr = colors[s.risk_level] if s.risk_level in colors else ('#667eea','#eef0ff') %}
+          <tr class="student-row" data-risk="{{ s.risk_level }}" data-name="{{ s.name|lower }}">
+            <td style="color:var(--muted);font-size:12px">#{{ s.id }}</td>
+            <td>
+              <div class="stu-cell">
+                <div class="stu-ava" style="background:{{ clr[1] }};color:{{ clr[0] }};border-color:{{ clr[0] }}44">
+                  {{ s.name[:2]|upper }}
+                </div>
+                <div>
+                  <div class="stu-name">{{ s.name }}</div>
+                  <div class="stu-sub">{{ s.gender or 'N/A' }}, Age {{ s.age or 'N/A' }}</div>
+                </div>
+              </div>
+            </td>
+            <td>Class {{ s.class_level or 'N/A' }}</td>
+            <td style="font-weight:600;color:{% if s.attendance < 60 %}var(--red){% elif s.attendance < 75 %}var(--orange){% else %}var(--green){% endif %}">
+              {{ s.attendance or 0 }}%
+            </td>
+            <td>{{ s.prev_grade or 'N/A' }}</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="flex:1;height:6px;background:#f0f0f0;border-radius:3px;min-width:60px">
+                  <div style="height:100%;width:{{ s.risk_score or 0 }}%;background:{{ clr[0] }};border-radius:3px"></div>
+                </div>
+                <span style="font-weight:700;color:{{ clr[0] }};font-size:12px">{{ s.risk_score or 0 }}%</span>
+              </div>
+            </td>
+            <td><span class="rbadge {{ s.risk_level }}">{{ s.risk_level }}</span></td>
+            <td style="font-size:12px;color:var(--muted)">{{ s.created_at[:10] if s.created_at else 'N/A' }}</td>
+            <td>
+              <form method="POST" action="/students/delete/{{ s.id }}" style="display:inline" onsubmit="return confirm('Delete {{ s.name }}?')">
+                <button type="submit" class="btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-state">
+        <i class="fas fa-users"></i>
+        <p style="font-size:16px;font-weight:600;margin-bottom:8px">No students yet</p>
+        <p style="font-size:13px">Make your first prediction to see students here.</p>
+        <a href="/predict" style="display:inline-block;margin-top:16px;background:var(--grad);color:#fff;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:600">New Prediction</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+function filterTable(){
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const risk   = document.getElementById('riskFilter').value;
+  document.querySelectorAll('.student-row').forEach(row => {
+    const nameMatch = row.dataset.name.includes(search);
+    const riskMatch = !risk || row.dataset.risk === risk;
+    row.style.display = (nameMatch && riskMatch) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

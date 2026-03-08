@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>New Prediction - EduPredict</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ── EXACT palette matching dashboard.html ── */
+    :root {
+      --primary:   #667eea;
+      --secondary: #764ba2;
+      --grad:      linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gold:      #ffd700;
+      --bg:        #f4f7fc;
+      --white:     #ffffff;
+      --shadow:    0 2px 10px rgba(0,0,0,0.08);
+      --shadow-h:  0 8px 28px rgba(102,126,234,0.18);
+      --text:      #333;
+      --muted:     #666;
+      --border:    #f0f0f0;
+      --red:       #ff4d4d;
+      --orange:    #ffa700;
+      --yellow:    #ffc107;
+      --green:     #28a745;
+      --red-bg:    #ffe5e5;
+      --orange-bg: #fff3cd;
+      --yellow-bg: #fff8e1;
+      --green-bg:  #d4edda;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ══ SIDEBAR — matches dashboard.html exactly ══ */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 260px;
+      height: 100vh;
+      background: var(--grad);
+      display: flex;
+      flex-direction: column;
+      z-index: 200;
+      overflow: hidden;
+    }
+
+    /* Subtle radial overlay — same as dashboard */
+    .sidebar::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .sb-logo {
+      padding: 26px 22px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; gap: 12px;
+    }
+
+    .sb-logo-icon {
+      width: 42px; height: 42px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .sb-brand { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+    .sb-sub   { font-size: 11px; color: rgba(255,255,255,0.55); }
+
+    .sb-body  { flex: 1; padding: 14px 12px; overflow-y: auto; }
+
+    .sb-section {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 1.4px; text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      padding: 14px 12px 7px;
+    }
+
+    /* FIX 10: nav-item matches dashboard style exactly */
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: rgba(255,255,255,0.72);
+      font-size: 13.5px; font-weight: 500;
+      text-decoration: none;
+      transition: all .22s;
+      margin-bottom: 3px;
+      position: relative;
+    }
+
+    .nav-item i { width: 18px; text-align: center; color: var(--gold); font-size: 13px; }
+    .nav-item:hover { background: rgba(255,255,255,0.15); color: #fff; transform: translateX(4px); }
+    .nav-item.active { background: rgba(255,255,255,0.22); color: #fff; font-weight: 600; }
+
+    /* FIX 10: Gold active bar — same as dashboard */
+    .nav-item.active::before {
+      content: '';
+      position: absolute; left: 0; top: 20%; bottom: 20%;
+      width: 3px;
+      background: var(--gold);
+      border-radius: 0 4px 4px 0;
+    }
+
+    .sb-foot {
+      padding: 14px 12px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .user-row {
+      display: flex; align-items: center; gap: 11px;
+      padding: 10px 12px; border-radius: 10px;
+      cursor: pointer; transition: background .2s;
+    }
+    .user-row:hover { background: rgba(255,255,255,0.1); }
+
+    .user-ava {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.35);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+
+    .user-name { font-size: 13px; font-weight: 600; color: #fff; }
+    .user-role { font-size: 11px; color: rgba(255,255,255,0.5); }
+
+    /* ══ MAIN ══ */
+    .main-content { margin-left: 260px; display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* ── TOPBAR — matches dashboard ── */
+    .topbar {
+      background: var(--white);
+      padding: 16px 30px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .topbar h2 { font-size: 20px; font-weight: 700; }
+    .topbar h2 i { color: var(--primary); margin-right: 9px; }
+    .topbar p  { font-size: 13px; color: var(--muted); margin: 0; }
+
+    .user-info { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+
+    .user-avatar {
+      width: 40px; height: 40px;
+      background: var(--grad);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; color: #fff;
+    }
+
+    /* ══ PAGE BODY ══ */
+    .page-body { padding: 26px 30px; }
+
+    /* ── PREDICTION CONTAINER ── */
+    .prediction-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+
+    /* ── FORM CARD — matches dashboard card style ── */
+    .form-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+      transition: box-shadow .2s;
+    }
+    .form-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+
+    .card-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .card-title {
+      font-size: 15px; font-weight: 700;
+      display: flex; align-items: center; gap: 9px;
+    }
+
+    .cticon {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: linear-gradient(135deg, #667eea22, #764ba222);
+      display: flex; align-items: center; justify-content: center; font-size: 13px;
+    }
+    .cticon i { background: var(--grad); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    /* ── FORM ELEMENTS ── */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 0;
+    }
+
+    .form-group { margin-bottom: 18px; }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 500;
+      font-size: 13px;
+      color: #555;
+    }
+
+    .form-group label i { color: var(--primary); margin-right: 7px; }
+
+    .form-hint { font-size: 11px; color: #aaa; margin-top: 4px; }
+
+    .form-control {
+      width: 100%;
+      padding: 11px 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      transition: all .25s;
+      background: #fff;
+      color: var(--text);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.12);
+    }
+
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23667eea'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 16px;
+      cursor: pointer;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-predict {
+      width: 100%;
+      background: var(--grad);
+      color: #fff;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px; font-weight: 600;
+      cursor: pointer;
+      transition: all .3s;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      box-shadow: 0 4px 12px rgba(102,126,234,0.35);
+    }
+    .btn-predict:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.45); }
+    .btn-predict:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+    .btn-reset {
+      width: 100%;
+      background: var(--border);
+      color: var(--muted);
+      padding: 11px;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px; font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      margin-top: 10px;
+    }
+    .btn-reset:hover { background: #e0e0e0; }
+
+    /* ── ERROR ALERT ── */
+    .error-alert {
+      padding: 12px 16px;
+      background: rgba(255,77,77,0.08);
+      border: 1px solid rgba(255,77,77,0.25);
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      display: flex; align-items: center; gap: 10px;
+      display: none; /* shown by JS */
+    }
+    .error-alert i { color: var(--red); }
+
+    /* ── SUCCESS RESULT CARD ── */
+    .result-card {
+      margin-top: 22px;
+      border-radius: 12px;
+      padding: 22px;
+      border-left: 5px solid #ccc;
+      display: none;
+      animation: slideUp .35s ease;
+    }
+    .result-card.CRITICAL { background: var(--red-bg);    border-color: var(--red); }
+    .result-card.HIGH     { background: var(--orange-bg);  border-color: var(--orange); }
+    .result-card.MODERATE { background: var(--yellow-bg);  border-color: var(--yellow); }
+    .result-card.SAFE     { background: var(--green-bg);   border-color: var(--green); }
+
+    .result-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+
+    .result-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; flex-shrink: 0;
+    }
+    .CRITICAL .result-icon { background: var(--red-bg);    color: var(--red);    border: 2px solid var(--red); }
+    .HIGH     .result-icon { background: var(--orange-bg); color: var(--orange); border: 2px solid var(--orange); }
+    .MODERATE .result-icon { background: var(--yellow-bg); color: var(--yellow); border: 2px solid var(--yellow); }
+    .SAFE     .result-icon { background: var(--green-bg);  color: var(--green);  border: 2px solid var(--green); }
+
+    .result-name  { font-size: 17px; font-weight: 700; margin-bottom: 3px; }
+    .result-score { font-size: 28px; font-weight: 800; }
+
+    .result-interventions { padding-left: 18px; margin-top: 10px; }
+    .result-interventions li { font-size: 13px; margin-bottom: 5px; }
+
+    /* ── SIDEBAR RIGHT PANEL ── */
+    .info-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      transition: box-shadow .2s;
+    }
+    .info-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+
+    .info-hdr {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 15px; font-weight: 700;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+    .info-hdr i { color: var(--primary); }
+
+    .info-list { list-style: none; padding: 0; }
+    .info-list li {
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px;
+    }
+    .info-list li i { color: var(--green); width: 16px; }
+    .info-list li:last-child { border-bottom: none; }
+
+    /* ── RECENT PREDICTIONS ── */
+    .recent-wrap { background: #f8f9ff; border-radius: 10px; padding: 14px; margin-top: 16px; }
+    .recent-label { font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--text); }
+
+    .recent-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 8px;
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+      border-radius: 6px;
+    }
+    .recent-item:last-child { border-bottom: none; }
+    .recent-item:hover { background: #eef0ff; }
+
+    .recent-info { display: flex; align-items: center; gap: 10px; }
+
+    .recent-ava {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--grad);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 12px; font-weight: 700; flex-shrink: 0;
+    }
+
+    .recent-name { font-size: 13px; font-weight: 600; }
+    .recent-sub  { font-size: 11px; color: var(--muted); }
+
+    /* FIX 7: risk badges match backend CRITICAL/HIGH/MODERATE/SAFE */
+    .rbadge {
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: 700;
+    }
+    .rbadge.CRITICAL { background: var(--red-bg);    color: var(--red); }
+    .rbadge.HIGH     { background: var(--orange-bg);  color: var(--orange); }
+    .rbadge.MODERATE { background: var(--yellow-bg);  color: #c68a00; }
+    .rbadge.SAFE     { background: var(--green-bg);   color: var(--green); }
+
+    /* ── BULK UPLOAD ── */
+    .upload-hint { font-size: 12px; color: #aaa; margin-top: 10px; }
+    .upload-hint a { color: var(--primary); text-decoration: none; font-weight: 500; }
+    .upload-hint a:hover { text-decoration: underline; }
+
+    /* ── LOADING SPINNER ── */
+    .spinner { display: none; }
+    .btn-predict.loading .spinner { display: inline-block; }
+    .btn-predict.loading .btn-text { display: none; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 992px) {
+      .sidebar { width: 70px; }
+      .sb-brand, .sb-sub, .nav-item span, .sb-section,
+      .user-name, .user-role { display: none; }
+      .main-content { margin-left: 70px; }
+      .prediction-container { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .page-body { padding: 16px; }
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: #d0d5e8; border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ SIDEBAR — matches dashboard.html ══════════════ -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">
+      <i class="fas fa-graduation-cap" style="color:var(--gold)"></i>
+    </div>
+    <div>
+      <div class="sb-brand">EduPredict</div>
+      <div class="sb-sub">Early Warning System</div>
+    </div>
+  </div>
+
+  <div class="sb-body">
+    <div class="sb-section">Main Menu</div>
+
+    <!-- FIX 4: Correct route links -->
+    <a class="nav-item" href="/dashboard">
+      <i class="fas fa-home"></i> <span>Dashboard</span>
+    </a>
+    <!-- FIX 4: active on this page -->
+    <a class="nav-item active" href="/predict">
+      <i class="fas fa-plus-circle"></i> <span>New Prediction</span>
+    </a>
+    <a class="nav-item" href="/students">
+      <i class="fas fa-users"></i> <span>Students</span>
+    </a>
+
+    <div class="sb-section">Monitor</div>
+    <a class="nav-item" href="/alerts">
+      <i class="fas fa-bell"></i> <span>Alerts</span>
+    </a>
+    <a class="nav-item" href="/analytics">
+      <i class="fas fa-chart-bar"></i> <span>Analytics</span>
+    </a>
+    <a class="nav-item" href="/reports">
+      <i class="fas fa-file-alt"></i> <span>Reports</span>
+    </a>
+
+    <div class="sb-section">Account</div>
+    <a class="nav-item" href="/settings">
+      <i class="fas fa-cog"></i> <span>Settings</span>
+    </a>
+    <!-- FIX 4: /logout route -->
+    <a class="nav-item" href="/logout">
+      <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+    </a>
+  </div>
+
+  <div class="sb-foot">
+    <div class="user-row">
+      <div class="user-ava">{{ (user.firstname or 'U')[0]|upper }}</div>
+      <div>
+        <div class="user-name">{{ user.firstname or '' }}</div>
+        <div class="user-role">{{ (user.role or 'teacher')|title }}</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div class="main-content">
+
+  <!-- TOPBAR — matches dashboard -->
+  <div class="topbar">
+    <div>
+      <h2><i class="fas fa-plus-circle"></i>New Prediction</h2>
+      <p>Enter student details to predict dropout risk</p>
+    </div>
+    <div class="user-info">
+      <div class="user-avatar"><i class="fas fa-user"></i></div>
+      <div style="font-size:14px;font-weight:500">{{ user.firstname or '' }}</div>
+    </div>
+  </div>
+
+  <div class="page-body">
+
+    <!-- FIX 8: Error alert shown via JS (no Jinja2 needed for static) -->
+    <div class="error-alert" id="error-alert">
+      <i class="fas fa-exclamation-circle"></i>
+      <span id="error-msg">An error occurred.</span>
+    </div>
+
+    <div class="prediction-container">
+
+      <!-- ══ FORM CARD ══ -->
+      <div class="form-card">
+        <div class="card-hdr">
+          <div class="card-title">
+            <div class="cticon"><i class="fas fa-user-graduate"></i></div>
+            Student Information
+          </div>
+          <span style="font-size:12px;color:var(--muted)">All fields required</span>
+        </div>
+
+        <!-- FIX 3: Removed form action/method — JS fetch handles submission -->
+        <!-- FIX 1: All field names match backend/dataset exactly -->
+        <div id="predict-form">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-user"></i> Full Name</label>
+              <input type="text" class="form-control" id="f-name" placeholder="e.g. Ravi Kumar" required/>
+            </div>
+            <!-- FIX 9: Removed student_id — not in backend -->
+            <div class="form-group">
+              <label><i class="fas fa-calendar"></i> Age</label>
+              <!-- FIX 2: Age range 6–15 for government school students -->
+              <input type="number" class="form-control" id="f-age" placeholder="6 – 15" min="6" max="15" required/>
+              <div class="form-hint">Government school students: age 6 to 15</div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-venus-mars"></i> Gender</label>
+              <select class="form-control" id="f-gender" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-layer-group"></i> Class</label>
+              <!-- FIX 1: class_level replaces student_id -->
+              <select class="form-control" id="f-class" required>
+                <option value="">Select Class</option>
+                <option value="1">Class 1</option>
+                <option value="2">Class 2</option>
+                <option value="3">Class 3</option>
+                <option value="4">Class 4</option>
+                <option value="5">Class 5</option>
+                <option value="6">Class 6</option>
+                <option value="7">Class 7</option>
+                <option value="8">Class 8</option>
+                <option value="9">Class 9</option>
+                <option value="10">Class 10</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-clock"></i> Attendance (%)</label>
+              <input type="number" class="form-control" id="f-att" placeholder="0 – 100" min="0" max="100" required/>
+              <div class="form-hint">Below 60% is high risk</div>
+            </div>
+            <!-- FIX 1: prev_grade replaces internal_marks -->
+            <div class="form-group">
+              <label><i class="fas fa-star"></i> Previous Year Grade</label>
+              <input type="number" class="form-control" id="f-grade" placeholder="0 – 100" min="0" max="100" required/>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- FIX 1: formative_marks replaces assignment_score -->
+            <div class="form-group">
+              <label><i class="fas fa-pencil-alt"></i> Formative Marks</label>
+              <input type="number" class="form-control" id="f-form" placeholder="0 – 100" min="0" max="100" required/>
+              <div class="form-hint">Continuous assessment score</div>
+            </div>
+            <!-- FIX 1: summative_marks replaces study_hours -->
+            <div class="form-group">
+              <label><i class="fas fa-file-alt"></i> Summative Marks</label>
+              <input type="number" class="form-control" id="f-summ" placeholder="0 – 100" min="0" max="100" required/>
+              <div class="form-hint">Final exam score</div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- FIX 1: homework_completion replaces family_income -->
+            <div class="form-group">
+              <label><i class="fas fa-book"></i> Homework Completion</label>
+              <select class="form-control" id="f-hw" required>
+                <option value="">Select</option>
+                <option value="1">Yes — Completes homework</option>
+                <option value="0">No — Does not complete</option>
+              </select>
+            </div>
+            <!-- FIX 1: distance_km replaces internet_access -->
+            <div class="form-group">
+              <label><i class="fas fa-route"></i> Distance from School (km)</label>
+              <input type="number" class="form-control" id="f-dist" placeholder="e.g. 5" min="0" max="50" required/>
+              <div class="form-hint">Distance in kilometres</div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- FIX 1: parent_income replaces previous_failures -->
+            <div class="form-group">
+              <label><i class="fas fa-wallet"></i> Parent Income Level</label>
+              <select class="form-control" id="f-income" required>
+                <option value="">Select Level</option>
+                <option value="0">Low (BPL)</option>
+                <option value="1">Middle</option>
+                <option value="2">High</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-truck-moving"></i> Migration Risk</label>
+              <select class="form-control" id="f-mig" required>
+                <option value="">Select</option>
+                <option value="0">None</option>
+                <option value="1">Medium</option>
+                <option value="2">High</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-fire"></i> Student Interest</label>
+              <select class="form-control" id="f-interest" required>
+                <option value="">Select</option>
+                <option value="0">Low</option>
+                <option value="1">Medium</option>
+                <option value="2">High</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-heartbeat"></i> Health Condition</label>
+              <select class="form-control" id="f-health" required>
+                <option value="">Select</option>
+                <option value="0">Poor</option>
+                <option value="1">Fair</option>
+                <option value="2">Good</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-user-check"></i> Behaviour</label>
+            <select class="form-control" id="f-behav" required>
+              <option value="">Select</option>
+              <option value="0">Poor</option>
+              <option value="1">Average</option>
+              <option value="2">Good</option>
+            </select>
+          </div>
+
+          <!-- FIX 3: JS fetch instead of form POST -->
+          <button class="btn-predict" id="predict-btn" onclick="submitPrediction()">
+            <span class="btn-text"><i class="fas fa-robot"></i> Predict Dropout Risk</span>
+            <span class="spinner"><i class="fas fa-spinner fa-spin"></i> Predicting...</span>
+          </button>
+
+          <button class="btn-reset" onclick="resetForm()">
+            <i class="fas fa-undo"></i> Reset Form
+          </button>
+
+          <!-- Result shown here after prediction -->
+          <div class="result-card" id="result-card">
+            <div class="result-top">
+              <div class="result-icon" id="r-icon"></div>
+              <div>
+                <div class="result-name" id="r-name"></div>
+                <div class="result-score" id="r-score"></div>
+              </div>
+            </div>
+            <strong style="font-size:13px">Recommended Interventions:</strong>
+            <ul class="result-interventions" id="r-interventions"></ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ══ RIGHT PANEL ══ -->
+      <div>
+
+        <!-- Info Card -->
+        <div class="info-card">
+          <div class="info-hdr">
+            <i class="fas fa-info-circle"></i> Prediction Info
+          </div>
+          <ul class="info-list">
+            <li><i class="fas fa-check-circle"></i> High prediction accuracy</li>
+            <li><i class="fas fa-check-circle"></i> Analyses 13 risk factors</li>
+            <li><i class="fas fa-check-circle"></i> Real-time results</li>
+            <li><i class="fas fa-check-circle"></i> 4-level risk indicator</li>
+            <li><i class="fas fa-check-circle"></i> Intervention suggestions</li>
+            <li><i class="fas fa-check-circle"></i> Stored to database</li>
+          </ul>
+
+          <!-- FIX 5: Recent predictions loaded from /api/students -->
+          <div class="recent-wrap">
+            <div class="recent-label">Recent Predictions</div>
+            <div id="recent-list">
+              <div style="text-align:center;color:var(--muted);font-size:12px;padding:14px">
+                <i class="fas fa-spinner fa-spin"></i> Loading...
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FIX 6: Bulk upload with correct action -->
+        <div class="info-card">
+          <div class="info-hdr">
+            <i class="fas fa-upload"></i> Bulk Upload
+          </div>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+            Upload a CSV file to predict dropout risk for multiple students at once.
+          </p>
+          <!-- FIX 6: Added action pointing to /api/bulk-upload -->
+          <form action="/api/bulk-upload" method="POST" enctype="multipart/form-data" onsubmit="return handleBulkUpload(event)">
+            <div class="form-group">
+              <input type="file" class="form-control" name="file" id="csv-file" accept=".csv" required/>
+              <div class="form-hint">Only .csv files accepted</div>
+            </div>
+            <button type="submit" class="btn-predict" style="padding:11px;font-size:13px">
+              <i class="fas fa-upload"></i> Upload & Predict
+            </button>
+          </form>
+          <div class="upload-hint">
+            <i class="fas fa-download"></i>
+            <a href="/api/sample-csv">Download sample CSV template</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '/api';
+
+// ── FIX 3 + 1: Submit via JS fetch with correct JSON field names ──
+async function submitPrediction() {
+
+  // ── Collect & map dropdown values to 0-100 scale ──
+  const raw = {
+    name:     document.getElementById('f-name').value.trim(),
+    age:      document.getElementById('f-age').value,
+    gender:   document.getElementById('f-gender').value,
+    class_level: document.getElementById('f-class').value,
+    attendance:  document.getElementById('f-att').value,
+    prev_grade:  document.getElementById('f-grade').value,
+    formative_marks:  document.getElementById('f-form').value,
+    summative_marks:  document.getElementById('f-summ').value,
+    hw:       document.getElementById('f-hw').value,
+    distance_km: document.getElementById('f-dist').value,
+    income:   document.getElementById('f-income').value,
+    mig:      document.getElementById('f-mig').value,
+    interest: document.getElementById('f-interest').value,
+    health:   document.getElementById('f-health').value,
+    behav:    document.getElementById('f-behav').value,
+  };
+
+  // Validate all fields are filled
+  for (const [key, val] of Object.entries(raw)) {
+    if (val === '' || val === null || val === undefined) {
+      showError('Please fill in all fields. Missing: ' + key.replace(/_/g,' '));
+      return;
+    }
+  }
+  if (!raw.name) { showError('Please enter student name.'); return; }
+
+  // Map 0/1/2 dropdowns → 0-100 scale for backend
+  const hwMap      = {'0': 20,  '1': 90};           // No=20%, Yes=90%
+  const incomeMap  = {'0': 15,  '1': 50,  '2': 85}; // Low/Mid/High
+  const migMap     = {'0': 5,   '1': 50,  '2': 85}; // None/Med/High
+  const interestMap= {'0': 20,  '1': 55,  '2': 90}; // Low/Med/High
+  const healthMap  = {'0': 20,  '1': 55,  '2': 90}; // Poor/Fair/Good
+  const behavMap   = {'0': 20,  '1': 55,  '2': 90}; // Poor/Avg/Good
+
+  const fields = {
+    name:                raw.name,
+    age:                 parseInt(raw.age),
+    gender:              raw.gender,
+    class_level:         parseInt(raw.class_level),
+    attendance:          parseInt(raw.attendance),
+    prev_grade:          parseInt(raw.prev_grade),
+    formative_marks:     parseInt(raw.formative_marks),
+    summative_marks:     parseInt(raw.summative_marks),
+    homework_completion: hwMap[raw.hw]      ?? parseInt(raw.hw),
+    distance_km:         parseFloat(raw.distance_km),
+    parent_income:       incomeMap[raw.income]  ?? parseInt(raw.income),
+    migration_risk:      migMap[raw.mig]     ?? parseInt(raw.mig),
+    student_interest:    interestMap[raw.interest] ?? parseInt(raw.interest),
+    health_condition:    healthMap[raw.health]  ?? parseInt(raw.health),
+    behaviour:           behavMap[raw.behav]   ?? parseInt(raw.behav),
+  };
+
+  hideError();
+
+  // Loading state
+  const btn = document.getElementById('predict-btn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    const res  = await fetch(API + '/predict', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(fields)
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      showResult(data);
+      loadRecentPredictions();
+      // Redirect to full result page after 1.5 seconds
+      setTimeout(() => { window.location.href = data.result_url || '/result'; }, 1500);
+    } else {
+      showError('Prediction failed: ' + (data.error || 'Unknown error'));
+    }
+
+  } catch (e) {
+    showError('Cannot connect to backend. Make sure Flask is running on port 5000.');
+  }
+
+  btn.classList.remove('loading');
+  btn.disabled = false;
+}
+
+// ── Show result card ──
+function showResult(data) {
+  const card = document.getElementById('result-card');
+  const icon = document.getElementById('r-icon');
+  const name = document.getElementById('r-name');
+  const score = document.getElementById('r-score');
+  const interventions = document.getElementById('r-interventions');
+
+  const icons = { CRITICAL:'⚠️', HIGH:'🔴', MODERATE:'🟡', SAFE:'🟢' };
+  const msgs  = {
+    CRITICAL: 'is at CRITICAL dropout risk',
+    HIGH:     'is at HIGH dropout risk',
+    MODERATE: 'shows MODERATE dropout risk',
+    SAFE:     'is SAFE — low dropout risk',
+  };
+
+  card.className = 'result-card ' + data.risk_level;
+  card.style.display = 'block';
+
+  icon.textContent  = icons[data.risk_level] || '❓';
+  name.textContent  = data.student_name + ' ' + (msgs[data.risk_level] || '');
+  score.textContent = data.risk_score + '% Dropout Risk';
+
+  interventions.innerHTML = data.interventions.map(i => `<li>${i}</li>`).join('');
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ── FIX 5: Load recent predictions from API ──
+async function loadRecentPredictions() {
+  try {
+    const res  = await fetch(API + '/students');
+    const data = await res.json();
+    const list = document.getElementById('recent-list');
+
+    if (!data.students || !data.students.length) {
+      list.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:12px;padding:14px">No predictions yet</div>';
+      return;
+    }
+
+    const recent = data.students.slice(0, 5);
+    list.innerHTML = recent.map(s => {
+      const init = s.name.split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase();
+      return `
+      <div class="recent-item">
+        <div class="recent-info">
+          <div class="recent-ava">${init}</div>
+          <div>
+            <div class="recent-name">${s.name}</div>
+            <div class="recent-sub">Class ${s.class_level} · Att: ${s.attendance}%</div>
+          </div>
+        </div>
+        <span class="rbadge ${s.risk_level}">${s.risk_level}</span>
+      </div>`;
+    }).join('');
+
+  } catch(e) {
+    document.getElementById('recent-list').innerHTML =
+      '<div style="text-align:center;color:var(--muted);font-size:12px;padding:14px">Connect to backend to see predictions</div>';
+  }
+}
+
+// ── FIX 6: Bulk upload handler ──
+function handleBulkUpload(e) {
+  e.preventDefault();
+  const file = document.getElementById('csv-file').files[0];
+  if (!file) { showError('Please select a CSV file.'); return false; }
+  if (!file.name.endsWith('.csv')) { showError('Only .csv files are accepted.'); return false; }
+  const formData = new FormData();
+  formData.append('file', file);
+  fetch('/api/bulk-upload', { method: 'POST', body: formData })
+    .then(r => r.json())
+    .then(d => {
+      if(d.success) {
+        alert('Uploaded! Inserted: ' + d.inserted + ' students.' + (d.errors.length ? '\nErrors: ' + d.errors.join(', ') : ''));
+        loadRecentPredictions();
+      } else showError('Upload failed: ' + d.error);
+    }).catch(e => showError('Upload error: ' + e));
+  return false;
+}
+
+// ── FIX 8: Error shown via JS ──
+function showError(msg) {
+  const el = document.getElementById('error-alert');
+  document.getElementById('error-msg').textContent = msg;
+  el.style.display = 'flex';
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function hideError() {
+  document.getElementById('error-alert').style.display = 'none';
+}
+
+function resetForm() {
+  ['f-name','f-age','f-gender','f-class','f-att','f-grade',
+   'f-form','f-summ','f-hw','f-dist','f-income','f-mig',
+   'f-interest','f-health','f-behav'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('result-card').style.display = 'none';
+  hideError();
+}
+
+// ── Init ──
+window.addEventListener('load', loadRecentPredictions);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

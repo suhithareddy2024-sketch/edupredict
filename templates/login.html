@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Login - EduPredict</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+:root{--primary:#667eea;--secondary:#764ba2;--grad:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--gold:#ffd700;--bg:#f4f7fc;--white:#fff;--text:#333;--muted:#666;--border:#e0e0e0;--red:#ff4d4d;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',sans-serif;background:var(--grad);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:var(--white);border-radius:20px;padding:44px 40px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.15);animation:slideUp .5s ease}
+.logo{text-align:center;margin-bottom:32px}
+.logo-icon{width:68px;height:68px;background:var(--grad);border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:14px;box-shadow:0 8px 20px rgba(102,126,234,.4)}
+.logo h1{font-size:26px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo p{font-size:13px;color:var(--muted);margin-top:4px}
+.form-group{margin-bottom:18px}
+label{display:block;margin-bottom:7px;font-weight:500;font-size:13px;color:#555}
+label i{color:var(--primary);margin-right:7px;width:16px}
+.input-wrap{position:relative}
+input{width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:10px;font-family:'Poppins',sans-serif;font-size:13px;transition:all .25s;outline:none;color:var(--text)}
+input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(102,126,234,.12)}
+.toggle-pw{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;padding:4px}
+.btn-login{width:100%;background:var(--grad);color:#fff;padding:14px;border:none;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .3s;box-shadow:0 4px 14px rgba(102,126,234,.4);display:flex;align-items:center;justify-content:center;gap:9px;margin-top:24px}
+.btn-login:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(102,126,234,.5)}
+.error{background:#ffe5e5;border:1px solid #f5c6cb;color:var(--red);padding:12px 16px;border-radius:10px;font-size:13px;margin-bottom:20px;display:flex;align-items:center;gap:9px}
+.divider{text-align:center;margin:20px 0;color:var(--muted);font-size:12px;position:relative}
+.divider::before,.divider::after{content:'';position:absolute;top:50%;width:40%;height:1px;background:#eee}
+.divider::before{left:0}.divider::after{right:0}
+.link-row{text-align:center;font-size:13px;color:var(--muted);margin-top:16px}
+.link-row a{color:var(--primary);font-weight:600;text-decoration:none}
+.link-row a:hover{text-decoration:underline}
+.demo-box{background:#f0f3ff;border-radius:10px;padding:12px 16px;font-size:12px;color:#555;margin-top:18px;border:1px solid #d8dcff}
+.demo-box strong{color:var(--primary)}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="logo-icon"><i class="fas fa-graduation-cap" style="color:var(--gold)"></i></div>
+    <h1>EduPredict</h1>
+    <p>Student Dropout Early Warning System</p>
+  </div>
+
+  {% if error %}
+  <div class="error"><i class="fas fa-exclamation-circle"></i> {{ error }}</div>
+  {% endif %}
+
+  <form method="POST" action="/login">
+    <div class="form-group">
+      <label><i class="fas fa-user"></i> Username or Email</label>
+      <input type="text" name="username" placeholder="admin or admin@edupredict.com" required autocomplete="username"/>
+    </div>
+    <div class="form-group">
+      <label><i class="fas fa-lock"></i> Password</label>
+      <div class="input-wrap">
+        <input type="password" name="password" id="pw-field" placeholder="Enter your password" required autocomplete="current-password"/>
+        <button type="button" class="toggle-pw" onclick="togglePw()"><i class="fas fa-eye" id="pw-eye"></i></button>
+      </div>
+    </div>
+    <button type="submit" class="btn-login">
+      <i class="fas fa-sign-in-alt"></i> Sign In
+    </button>
+  </form>
+
+  <div class="demo-box">
+    <strong>Demo Credentials:</strong><br/>
+    Username: <strong>admin</strong> &nbsp;|&nbsp; Password: <strong>admin123</strong>
+  </div>
+
+  <div class="link-row">
+    Don't have an account? <a href="/register">Register here</a>
+  </div>
+</div>
+
+<script>
+function togglePw(){
+  const f=document.getElementById('pw-field');
+  const e=document.getElementById('pw-eye');
+  if(f.type==='password'){f.type='text';e.className='fas fa-eye-slash'}
+  else{f.type='password';e.className='fas fa-eye'}
+}
+</script>
+</body>
+</html>

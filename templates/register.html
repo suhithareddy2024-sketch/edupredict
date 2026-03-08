@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - EduPredict</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .signup-container { width: 100%; max-width: 500px; }
+        .signup-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 35px 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        .signup-header { text-align: center; margin-bottom: 25px; }
+        .signup-header i { font-size: 50px; color: #ffd700; margin-bottom: 10px; }
+        .signup-header h2 { font-size: 26px; font-weight: 700; margin-bottom: 5px; }
+        .signup-header p { color: rgba(255, 255, 255, 0.7); font-size: 14px; }
+        .alert-error {
+            background: rgba(255, 77, 77, 0.2);
+            border: 1px solid rgba(255, 77, 77, 0.5);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #ffaaaa;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 13px; font-weight: 500; }
+        .input-group { position: relative; }
+        .input-group i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ffd700;
+            font-size: 15px;
+            z-index: 1;
+        }
+        .form-control {
+            width: 100%;
+            padding: 11px 11px 11px 38px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            font-size: 14px;
+            color: #fff;
+            transition: all 0.3s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #ffd700;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .form-control::placeholder { color: rgba(255, 255, 255, 0.5); }
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffd700'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            background-color: transparent;
+        }
+        select.form-control option { background: #333; color: #fff; }
+        .password-strength {
+            margin-top: 5px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .strength-bar { height: 100%; width: 0%; transition: all 0.3s; }
+        .strength-text { font-size: 11px; margin-top: 3px; color: rgba(255, 255, 255, 0.7); }
+        .terms { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+        .terms input { width: 16px; height: 16px; accent-color: #ffd700; }
+        .terms label { font-size: 13px; }
+        .terms a { color: #ffd700; text-decoration: none; }
+        .terms a:hover { text-decoration: underline; }
+        .btn-action {
+            width: 100%;
+            background: #ffd700;
+            color: #333;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4); }
+        .divider { text-align: center; margin: 20px 0; position: relative; }
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .divider span {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0 15px;
+            position: relative;
+            z-index: 1;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .social-signup { display: flex; gap: 10px; margin-bottom: 20px; }
+        .social-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .social-btn:hover { background: #ffd700; color: #333; }
+        .login-link { text-align: center; font-size: 14px; }
+        .login-link a { color: #ffd700; text-decoration: none; font-weight: 600; }
+        .login-link a:hover { text-decoration: underline; }
+        .back-home { text-align: center; margin-top: 15px; }
+        .back-home a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .back-home a:hover { color: #ffd700; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 480px) {
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .signup-card { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container" data-aos="fade-up">
+        <div class="signup-card">
+            <div class="signup-header">
+                <i class="fas fa-user-plus"></i>
+                <h2>Create Account</h2>
+                <p>Join EduPredict today</p>
+            </div>
+
+            {% if error %}
+            <div class="alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <form method="POST" action="/register">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" class="form-control" name="firstname" placeholder="First name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" class="form-control" name="lastname" placeholder="Last name" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Username</label>
+                    <div class="input-group">
+                        <i class="fas fa-user-tag"></i>
+                        <input type="text" class="form-control" name="username" placeholder="Choose a username" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Create password" required>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-bar" id="strengthBar"></div>
+                    </div>
+                    <div class="strength-text" id="strengthText"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Role</label>
+                    <div class="input-group">
+                        <i class="fas fa-graduation-cap"></i>
+                        <select class="form-control" name="role" required>
+                            <option value="" disabled selected>Select your role</option>
+                            <option value="teacher">Teacher</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="terms">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a></label>
+                </div>
+
+                <button type="submit" class="btn-action">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Create Account</span>
+                </button>
+            </form>
+
+            <div class="divider"><span>OR</span></div>
+
+            <div class="social-signup">
+                <a href="#" class="social-btn"><i class="fab fa-google"></i> Google</a>
+                <a href="#" class="social-btn"><i class="fab fa-github"></i> GitHub</a>
+            </div>
+
+            <div class="login-link">
+                Already have an account? <a href="/login">Login</a>
+            </div>
+
+            <div class="back-home">
+                <a href="/"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        const password = document.getElementById('password');
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthText = document.getElementById('strengthText');
+
+        password.addEventListener('input', function() {
+            const val = this.value;
+            let strength = 0;
+            if (val.length >= 8) strength += 25;
+            if (val.match(/[a-z]+/)) strength += 25;
+            if (val.match(/[A-Z]+/)) strength += 25;
+            if (val.match(/[0-9]+/)) strength += 25;
+            strengthBar.style.width = strength + '%';
+            if (strength <= 25) {
+                strengthBar.style.background = '#ff4444';
+                strengthText.textContent = 'Weak password';
+            } else if (strength <= 50) {
+                strengthBar.style.background = '#ffa700';
+                strengthText.textContent = 'Fair password';
+            } else if (strength <= 75) {
+                strengthBar.style.background = '#ffd700';
+                strengthText.textContent = 'Good password';
+            } else {
+                strengthBar.style.background = '#00C851';
+                strengthText.textContent = 'Strong password';
+            }
+        });
+    </script>
+</body>
+</html>
