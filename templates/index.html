@@ -5,25 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduPredict - Student Dropout System</title>
     
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- AOS Animation -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -31,10 +20,10 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
-        /* Navigation */
+
+        /* ── Navigation ── */
         .navbar {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
             padding: 15px 0;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -43,43 +32,33 @@
             top: 0;
             z-index: 1000;
         }
-        
         .navbar-brand {
-            font-size: 28px;
-            font-weight: 800;
-            color: #fff !important;
-            letter-spacing: 1px;
+            font-size: 28px; font-weight: 800;
+            color: #fff !important; letter-spacing: 1px;
         }
-        
-        .navbar-brand i {
-            color: #ffd700;
-            margin-right: 10px;
+        .navbar-brand i { color: #ffd700; margin-right: 10px; }
+
+        /* Fix Bootstrap toggler icon visibility on dark background */
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.5);
         }
-        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255%2C255%2C255%2C0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
         .nav-link {
-            color: #fff !important;
-            font-weight: 500;
-            margin: 0 12px;
-            position: relative;
-            transition: all 0.3s;
-            font-size: 15px;
+            color: #fff !important; font-weight: 500;
+            margin: 0 12px; position: relative;
+            transition: all 0.3s; font-size: 15px;
         }
-        
         .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #ffd700;
-            transition: width 0.3s;
+            content: ''; position: absolute;
+            bottom: -5px; left: 0;
+            width: 0; height: 2px;
+            background: #ffd700; transition: width 0.3s;
         }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        
+        .nav-link:hover::after { width: 100%; }
+
         .nav-btn {
             background: #ffd700 !important;
             color: #333 !important;
@@ -91,792 +70,754 @@
             border: 2px solid #ffd700 !important;
             font-size: 14px !important;
         }
-        
-        .nav-btn i {
-            color: #333 !important;
-            margin-right: 6px;
-            font-size: 13px;
-        }
-        
+        .nav-btn i { color: #333 !important; margin-right: 6px; font-size: 13px; }
         .nav-btn:hover {
             background: transparent !important;
             color: #fff !important;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255,215,0,0.3);
         }
-        
-        .nav-btn:hover i {
-            color: #fff !important;
-        }
-        
-        /* Hero Section */
+        .nav-btn:hover i { color: #fff !important; }
+        .nav-btn::after { display: none; } /* no underline on buttons */
+
+        /* ── Hero ── */
         .hero {
-            padding: 120px 0 50px;
+            padding: 130px 0 60px;
             text-align: center;
             position: relative;
         }
-        
-        .hero h1 {
-            font-size: 42px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-        
+        .hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
         .hero .highlight {
             color: #ffd700;
             border-bottom: 3px solid #ffd700;
             display: inline-block;
             padding-bottom: 5px;
         }
-        
         .hero p {
-            font-size: 16px;
-            max-width: 600px;
-            margin: 0 auto 30px;
-            opacity: 0.9;
-            line-height: 1.6;
+            font-size: 16px; max-width: 600px;
+            margin: 0 auto 30px; opacity: 0.9; line-height: 1.6;
         }
-        
+
+        /* FIX: hero buttons centred on all screen sizes */
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
         .school-image {
-            width: 90%;
-            max-width: 800px;
+            width: 90%; max-width: 800px;
             margin: 30px auto;
             border-radius: 15px;
             border: 4px solid #ffd700;
             box-shadow: 0 15px 30px rgba(0,0,0,0.3);
             overflow: hidden;
         }
-        
-        .school-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
+        .school-image img { width: 100%; height: auto; display: block; }
+
         .btn-primary {
-            background: #ffd700;
-            color: #333;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            margin: 5px 10px;
-            border: none;
-            transition: all 0.3s;
-            font-size: 15px;
+            background: #ffd700; color: #333;
+            padding: 12px 30px; border-radius: 25px;
+            font-weight: 600; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 8px;
+            border: none; transition: all 0.3s; font-size: 15px;
         }
-        
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(255,215,0,0.4);
-        }
-        
-        .btn-outline {
-            background: transparent;
-            color: #fff;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            margin: 5px 10px;
-            border: 2px solid #fff;
-            transition: all 0.3s;
-            font-size: 15px;
-        }
-        
-        .btn-outline:hover {
-            background: #fff;
             color: #333;
         }
-        
-        /* Features Section */
-        .features {
-            padding: 60px 0;
-            background: rgba(0, 0, 0, 0.2);
+        .btn-outline {
+            background: transparent; color: #fff;
+            padding: 12px 30px; border-radius: 25px;
+            font-weight: 600; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 8px;
+            border: 2px solid #fff; transition: all 0.3s; font-size: 15px;
         }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .section-title h2 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-        
-        .section-title p {
-            font-size: 16px;
-            opacity: 0.8;
-        }
-        
+        .btn-outline:hover { background: #fff; color: #333; }
+
+        /* ── Section title (shared) ── */
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title h2 { font-size: 32px; font-weight: 700; margin-bottom: 10px; }
+        .section-title p { font-size: 16px; opacity: 0.8; }
+
+        /* ── Features ── */
+        .features { padding: 70px 0; background: rgba(0,0,0,0.2); }
         .feature-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px 20px;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 30px 20px; border-radius: 15px;
+            text-align: center; margin-bottom: 20px;
             border: 1px solid rgba(255,215,0,0.2);
-            transition: all 0.3s;
-            height: 100%;
+            transition: all 0.3s; height: 100%;
         }
-        
         .feature-card:hover {
             transform: translateY(-8px);
             border-color: #ffd700;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
-        
-        .feature-card i {
-            font-size: 40px;
-            color: #ffd700;
-            margin-bottom: 15px;
-        }
-        
-        .feature-card h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        
-        .feature-card p {
-            font-size: 14px;
-            opacity: 0.8;
-            line-height: 1.5;
-        }
+        .feature-card i { font-size: 40px; color: #ffd700; margin-bottom: 15px; }
+        .feature-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 10px; }
+        .feature-card p { font-size: 14px; opacity: 0.8; line-height: 1.5; }
 
-        /* ═══════════════════════════════════════════════
-           DROPOUT INTERVENTION SECTION
-        ═══════════════════════════════════════════════ */
-        .intervention-section {
-            padding: 60px 0;
-        }
-
-        /* Cards — same class as .three-d-card in original */
+        /* ── Intervention cards ── */
+        .intervention-section { padding: 70px 0; }
         .three-d-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 25px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px; padding: 25px;
             margin: 15px 0;
             border: 1px solid rgba(255,215,0,0.2);
-            transition: all 0.3s;
-            height: 100%;
+            transition: all 0.3s; height: 100%;
         }
-
         .three-d-card:hover {
             transform: translateY(-8px) scale(1.02);
             border-color: #ffd700;
             box-shadow: 0 15px 30px rgba(0,0,0,0.3);
         }
+        .three-d-card.gold-border { border: 2px solid #ffd700; }
 
-        /* Gold border on second card — matches reference screenshot */
-        .three-d-card.gold-border {
-            border: 2px solid #ffd700;
-        }
-
-        /* ── Card illustration area ── */
         .card-illustration {
-            width: 100%;
-            height: 200px;
-            border-radius: 10px;
-            margin-bottom: 18px;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 100%; height: 200px;
+            border-radius: 10px; margin-bottom: 18px;
+            overflow: hidden; position: relative;
+            display: flex; align-items: center; justify-content: center;
         }
-
         .card-illustration.bg-home {
             background: linear-gradient(135deg, #1a1040 0%, #3a2080 50%, #5c4db1 100%);
         }
-
         .card-illustration.bg-scholar {
             background: linear-gradient(135deg, #0d1b2a 0%, #1e3a5f 55%, #2d5a8e 100%);
         }
-
-        /* Decorative blobs */
-        .card-illustration::before,
-        .card-illustration::after {
-            content: '';
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.05);
+        .card-illustration::before, .card-illustration::after {
+            content: ''; position: absolute;
+            border-radius: 50%; background: rgba(255,255,255,0.05);
         }
-        .card-illustration::before { width: 100px; height: 100px; top: -30px; left: -30px; }
-        .card-illustration::after  { width:  70px; height:  70px; bottom: -20px; right: -20px; }
+        .card-illustration::before { width:100px; height:100px; top:-30px; left:-30px; }
+        .card-illustration::after  { width:70px;  height:70px;  bottom:-20px; right:-20px; }
 
-        /* ── Home-visit illustration ── */
-        .scene-home {
-            position: relative;
-            width: 200px;
-            height: 150px;
-            z-index: 2;
-        }
-
-        /* House */
+        /* scene elements */
+        .scene-home { position:relative; width:200px; height:150px; z-index:2; }
         .s-house {
-            position: absolute;
-            bottom: 0; left: 10px;
-            width: 95px; height: 72px;
-            background: rgba(255,255,255,0.13);
-            border-radius: 5px;
-            border: 2px solid rgba(255,255,255,0.25);
+            position:absolute; bottom:0; left:10px;
+            width:95px; height:72px;
+            background:rgba(255,255,255,0.13);
+            border-radius:5px; border:2px solid rgba(255,255,255,0.25);
         }
-        .s-house::before {               /* roof */
-            content: '';
-            position: absolute;
-            top: -34px; left: -10px;
-            width: 0; height: 0;
-            border-left:  57px solid transparent;
-            border-right: 57px solid transparent;
-            border-bottom: 36px solid rgba(255,215,0,0.65);
+        .s-house::before {
+            content:''; position:absolute;
+            top:-34px; left:-10px;
+            width:0; height:0;
+            border-left:57px solid transparent;
+            border-right:57px solid transparent;
+            border-bottom:36px solid rgba(255,215,0,0.65);
         }
-        .s-door {
-            position: absolute;
-            bottom: 0; left: 32px;
-            width: 24px; height: 36px;
-            background: rgba(255,215,0,0.45);
-            border-radius: 3px 3px 0 0;
-        }
-        .s-win {
-            position: absolute;
-            top: 14px; left: 10px;
-            width: 18px; height: 15px;
-            background: rgba(255,255,255,0.28);
-            border-radius: 2px;
-        }
-
-        /* Teacher person */
-        .s-person {
-            position: absolute;
-            bottom: 0; right: 22px;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .s-head {
-            width: 24px; height: 24px;
-            border-radius: 50%;
-            background: rgba(255,220,150,0.9);
-            margin-bottom: 2px;
-        }
-        .s-body {
-            width: 20px; height: 42px;
-            background: rgba(255,255,255,0.75);
-            border-radius: 4px;
-        }
-
-        /* Briefcase */
+        .s-door { position:absolute; bottom:0; left:32px; width:24px; height:36px; background:rgba(255,215,0,0.45); border-radius:3px 3px 0 0; }
+        .s-win  { position:absolute; top:14px; left:10px; width:18px; height:15px; background:rgba(255,255,255,0.28); border-radius:2px; }
+        .s-person { position:absolute; bottom:0; right:22px; display:flex; flex-direction:column; align-items:center; }
+        .s-head { width:24px; height:24px; border-radius:50%; background:rgba(255,220,150,0.9); margin-bottom:2px; }
+        .s-body { width:20px; height:42px; background:rgba(255,255,255,0.75); border-radius:4px; }
         .s-brief {
-            position: absolute;
-            bottom: 10px; right: 8px;
-            width: 15px; height: 12px;
-            background: rgba(255,215,0,0.85);
-            border-radius: 2px;
-            border: 1.5px solid #ffd700;
+            position:absolute; bottom:10px; right:8px;
+            width:15px; height:12px;
+            background:rgba(255,215,0,0.85);
+            border-radius:2px; border:1.5px solid #ffd700;
         }
         .s-brief::before {
-            content: '';
-            position: absolute;
-            top: -6px; left: 3px;
-            width: 9px; height: 6px;
-            border: 1.5px solid #ffd700;
-            border-bottom: none;
-            border-radius: 3px 3px 0 0;
+            content:''; position:absolute;
+            top:-6px; left:3px; width:9px; height:6px;
+            border:1.5px solid #ffd700; border-bottom:none;
+            border-radius:3px 3px 0 0;
         }
-
-        /* Alert star burst */
         .s-alert {
-            position: absolute;
-            top: 6px; right: 6px;
-            width: 30px; height: 30px;
-            background: rgba(255,215,0,0.9);
-            clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+            position:absolute; top:6px; right:6px;
+            width:30px; height:30px;
+            background:rgba(255,215,0,0.9);
+            clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
         }
-
-        /* ── Scholarship illustration ── */
         .scene-scholar {
-            position: relative;
-            width: 180px; height: 150px;
-            display: flex; align-items: center; justify-content: center;
-            z-index: 2;
+            position:relative; width:180px; height:150px;
+            display:flex; align-items:center; justify-content:center; z-index:2;
         }
         .s-cert {
-            width: 136px; height: 100px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            border: 2px solid rgba(255,215,0,0.55);
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center; gap: 10px;
-            position: relative;
+            width:136px; height:100px;
+            background:rgba(255,255,255,0.1);
+            border-radius:10px; border:2px solid rgba(255,215,0,0.55);
+            display:flex; flex-direction:column;
+            align-items:center; justify-content:center; gap:10px; position:relative;
         }
         .s-seal {
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            background: rgba(255,215,0,0.2);
-            border: 2px solid rgba(255,215,0,0.7);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 17px;
+            width:36px; height:36px; border-radius:50%;
+            background:rgba(255,215,0,0.2); border:2px solid rgba(255,215,0,0.7);
+            display:flex; align-items:center; justify-content:center; font-size:17px;
         }
-        .s-lines { display: flex; flex-direction: column; gap: 6px; width: 78%; }
-        .s-line  { height: 4px; border-radius: 2px; background: rgba(255,255,255,0.22); }
-        .s-line:last-child { width: 62%; }
+        .s-lines { display:flex; flex-direction:column; gap:6px; width:78%; }
+        .s-line { height:4px; border-radius:2px; background:rgba(255,255,255,0.22); }
         .s-badge {
-            position: absolute;
-            bottom: -10px; right: -10px;
-            width: 30px; height: 30px;
-            border-radius: 50%;
-            background: rgba(255,215,0,0.9);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px; font-weight: 700; color: #333;
+            position:absolute; bottom:-10px; right:-10px;
+            width:30px; height:30px; border-radius:50%;
+            background:rgba(255,215,0,0.9);
+            display:flex; align-items:center; justify-content:center;
+            font-size:14px; font-weight:700; color:#333;
         }
 
-        /* ── Card text ── */
-        .three-d-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #ffd700;
-        }
-
-        .three-d-card p {
-            font-size: 14px;
-            line-height: 1.65;
-            opacity: 0.88;
-            margin-bottom: 16px;
-        }
-
-        /* Tag badge above title */
+        .three-d-card h3 { font-size:20px; font-weight:700; margin-bottom:10px; color:#ffd700; }
+        .three-d-card p  { font-size:14px; line-height:1.65; opacity:0.88; margin-bottom:16px; }
         .card-tag {
-            display: inline-block;
-            background: rgba(255,215,0,0.14);
-            color: #ffd700;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 1.4px;
-            text-transform: uppercase;
-            padding: 4px 11px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,215,0,0.3);
-            margin-bottom: 10px;
+            display:inline-block;
+            background:rgba(255,215,0,0.14); color:#ffd700;
+            font-size:0.68rem; font-weight:700;
+            letter-spacing:1.4px; text-transform:uppercase;
+            padding:4px 11px; border-radius:20px;
+            border:1px solid rgba(255,215,0,0.3); margin-bottom:10px;
         }
-
-        /* Risk-level pills row */
-        .risk-pills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 4px;
-        }
+        .risk-pills { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
         .risk-pill {
-            display: flex; align-items: center; gap: 6px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.18);
-            border-radius: 30px;
-            padding: 5px 13px;
-            font-size: 0.78rem;
-            color: rgba(255,255,255,0.9);
+            display:flex; align-items:center; gap:6px;
+            background:rgba(255,255,255,0.1);
+            border:1px solid rgba(255,255,255,0.18);
+            border-radius:30px; padding:5px 13px;
+            font-size:0.78rem; color:rgba(255,255,255,0.9);
         }
-        .pill-dot {
-            width: 7px; height: 7px;
-            border-radius: 50%; flex-shrink: 0;
-        }
-        .dot-red    { background: #f87171; }
-        .dot-orange { background: #fb923c; }
-        .dot-green  { background: #4ade80; }
-        .dot-yellow { background: #ffd700; }
+        .pill-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+        .dot-red    { background:#f87171; }
+        .dot-orange { background:#fb923c; }
+        .dot-green  { background:#4ade80; }
+        .dot-yellow { background:#ffd700; }
 
-        /* Stats Section */
-        .stats {
-            padding: 50px 0;
-            background: rgba(0, 0, 0, 0.3);
-        }
-        
-        .stat-item {
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .stat-number {
-            font-size: 36px;
-            font-weight: 800;
-            color: #ffd700;
-            line-height: 1;
-        }
-        
-        .stat-label {
-            font-size: 15px;
-            margin-top: 8px;
-            opacity: 0.9;
-        }
-        
-        /* Team Section */
-        .team-section {
-            padding: 60px 0;
-        }
-        
+        /* ── Stats ── */
+        .stats { padding: 60px 0; background: rgba(0,0,0,0.3); }
+        .stat-item { text-align: center; padding: 20px; }
+        .stat-number { font-size: 36px; font-weight: 800; color: #ffd700; line-height: 1; }
+        .stat-label  { font-size: 15px; margin-top: 8px; opacity: 0.9; }
+
+        /* ── Team ── */
+        .team-section { padding: 70px 0; }
         .team-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 25px 20px;
-            text-align: center;
-            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px; padding: 25px 20px;
+            text-align: center; margin-bottom: 20px;
             border: 1px solid rgba(255,215,0,0.2);
-            transition: all 0.3s;
+            transition: all 0.3s; height: 100%;
         }
-        
-        .team-card:hover {
-            transform: translateY(-8px);
-            border-color: #ffd700;
-        }
-        
+        .team-card:hover { transform: translateY(-8px); border-color: #ffd700; }
         .team-image {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid #ffd700;
+            width: 120px; height: 120px;
+            margin: 0 auto 15px; border-radius: 50%;
+            overflow: hidden; border: 3px solid #ffd700;
         }
-        
-        .team-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .team-card h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .team-card .position {
-            color: #ffd700;
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 10px;
-        }
-        
-        .team-card p {
-            font-size: 13px;
-            opacity: 0.8;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-        
-        .team-social {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-        }
-        
-        .team-social a {
-            color: #fff;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        .team-social a:hover {
-            color: #ffd700;
-            transform: translateY(-3px);
-        }
-        
-        /* Connect Section */
-        .connect-section {
-            padding: 60px 0;
-            background: rgba(0, 0, 0, 0.2);
-        }
-        
+        .team-image img { width: 100%; height: 100%; object-fit: cover; }
+        .team-card h3   { font-size: 18px; font-weight: 600; margin-bottom: 5px; }
+        .team-card .position { color: #ffd700; font-size: 13px; font-weight: 500; margin-bottom: 10px; }
+        .team-card p    { font-size: 13px; opacity: 0.8; margin-bottom: 15px; line-height: 1.5; }
+        .team-social    { display: flex; justify-content: center; gap: 12px; }
+        .team-social a  { color: #fff; font-size: 16px; transition: all 0.3s; }
+        .team-social a:hover { color: #ffd700; transform: translateY(-3px); }
+
+        /* ── Connect ── */
+        .connect-section { padding: 70px 0; background: rgba(0,0,0,0.2); }
         .connect-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 30px 20px;
-            text-align: center;
-            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px; padding: 30px 20px;
+            text-align: center; margin-bottom: 20px;
             border: 1px solid rgba(255,215,0,0.2);
-            transition: all 0.3s;
+            transition: all 0.3s; height: 100%;
         }
-        
-        .connect-card:hover {
-            transform: translateY(-8px);
-            border-color: #ffd700;
-        }
-        
+        .connect-card:hover { transform: translateY(-8px); border-color: #ffd700; }
         .connect-icon {
-            width: 70px;
-            height: 70px;
-            background: #ffd700;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 28px;
-            color: #333;
+            width: 70px; height: 70px;
+            background: #ffd700; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 15px; font-size: 28px; color: #333;
         }
-        
-        .connect-card h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        
-        .connect-card p {
-            font-size: 14px;
-            margin-bottom: 5px;
-            opacity: 0.9;
-        }
-        
+        .connect-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+        .connect-card p  { font-size: 14px; margin-bottom: 5px; opacity: 0.9; }
         .connect-btn {
-            display: inline-block;
-            padding: 8px 20px;
-            background: transparent;
-            color: #fff;
+            display: inline-block; padding: 8px 20px;
+            background: transparent; color: #fff;
             text-decoration: none;
-            border: 2px solid #ffd700;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: 500;
-            margin-top: 10px;
-            transition: all 0.3s;
+            border: 2px solid #ffd700; border-radius: 25px;
+            font-size: 14px; font-weight: 500;
+            margin-top: 10px; transition: all 0.3s;
         }
-        
-        .connect-btn:hover {
-            background: #ffd700;
-            color: #333;
-        }
-        
-        /* Footer */
-        .footer {
-            background: #1a1a2e;
-            padding: 40px 0 20px;
-        }
-        
-        .footer-logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 15px;
-            display: inline-block;
-        }
-        
-        .footer-logo i {
-            color: #ffd700;
-            margin-right: 8px;
-        }
-        
-        .footer-about {
-            font-size: 14px;
-            line-height: 1.6;
-            opacity: 0.8;
-            margin-bottom: 20px;
-        }
-        
-        .footer-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 8px;
-        }
-        
-        .footer-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 2px;
-            background: #ffd700;
-        }
-        
-        .footer-links {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-links a {
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: #ffd700;
-            padding-left: 5px;
-        }
-        
-        .footer-contact li {
-            margin-bottom: 10px;
-            font-size: 14px;
-            opacity: 0.8;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .footer-contact i {
-            color: #ffd700;
-            width: 20px;
-        }
-        
-        .footer-social {
-            display: flex;
-            gap: 12px;
-            margin-top: 15px;
-        }
-        
+        .connect-btn:hover { background: #ffd700; color: #333; }
+
+        /* FIX: centre the 2-card connect row */
+        .connect-row-center { justify-content: center; }
+
+        /* ── Footer ── */
+        .footer { background: #1a1a2e; padding: 50px 0 20px; }
+        .footer-logo { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 15px; display: inline-block; }
+        .footer-logo i { color: #ffd700; margin-right: 8px; }
+        .footer-about { font-size: 14px; line-height: 1.6; opacity: 0.8; margin-bottom: 20px; }
+        .footer-social { display: flex; gap: 12px; margin-top: 5px; }
         .footer-social a {
-            width: 35px;
-            height: 35px;
-            background: rgba(255,215,0,0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            text-decoration: none;
-            transition: all 0.3s;
-            font-size: 16px;
+            width: 35px; height: 35px;
+            background: rgba(255,215,0,0.1); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; text-decoration: none; transition: all 0.3s; font-size: 16px;
         }
-        
-        .footer-social a:hover {
-            background: #ffd700;
-            color: #333;
-            transform: translateY(-3px);
+        .footer-social a:hover { background: #ffd700; color: #333; transform: translateY(-3px); }
+
+        .footer-title {
+            font-size: 18px; font-weight: 600;
+            margin-bottom: 20px; position: relative; padding-bottom: 8px;
         }
-        
-        .newsletter-form {
-            display: flex;
-            gap: 8px;
-            margin-top: 15px;
+        .footer-title::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 40px; height: 2px; background: #ffd700;
         }
-        
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a {
+            color: rgba(255,255,255,0.7); text-decoration: none;
+            font-size: 14px; transition: all 0.3s;
+        }
+        .footer-links a:hover { color: #ffd700; padding-left: 5px; }
+
+        .footer-contact { list-style: none; padding: 0; }
+        .footer-contact li {
+            margin-bottom: 10px; font-size: 14px; opacity: 0.8;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .footer-contact i { color: #ffd700; width: 20px; }
+
+        /* Newsletter */
+        .newsletter-form { display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
         .newsletter-form input {
-            flex: 1;
-            padding: 10px;
-            border: none;
+            flex: 1; min-width: 140px; padding: 10px;
+            border: 1px solid rgba(255,215,0,0.3);
             border-radius: 5px;
             background: rgba(255,255,255,0.1);
-            color: #fff;
-            border: 1px solid rgba(255,215,0,0.3);
-            font-size: 14px;
+            color: #fff; font-size: 14px;
         }
-        
-        .newsletter-form input::placeholder {
-            color: rgba(255,255,255,0.5);
-        }
-        
+        .newsletter-form input::placeholder { color: rgba(255,255,255,0.5); }
         .newsletter-form button {
-            padding: 10px 18px;
-            background: #ffd700;
-            color: #333;
-            border: none;
-            border-radius: 5px;
-            font-weight: 600;
+            padding: 10px 18px; background: #ffd700;
+            color: #333; border: none; border-radius: 5px;
+            font-weight: 600; cursor: pointer; transition: all 0.3s;
+        }
+        .newsletter-form button:hover { background: #fff; }
+
+        .footer-bottom {
+            text-align: center; margin-top: 30px; padding-top: 20px;
+            border-top: 1px solid rgba(255,215,0,0.2);
+            font-size: 13px; opacity: 0.7;
+        }
+        .footer-bottom a { color: #ffd700; text-decoration: none; margin: 0 5px; }
+
+        /* ══════════════════════════════════════════
+           HOW IT WORKS  —  redesigned
+        ══════════════════════════════════════════ */
+        .how-section {
+            padding: 90px 0 100px;
+            position: relative;
+            overflow: hidden;
+            background: rgba(0,0,0,0.18);
+        }
+
+        /* Decorative blurred blobs */
+        .how-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            opacity: 0.18;
+        }
+        .how-blob-1 { width:420px; height:420px; background:#ffd700; top:-120px; left:-140px; }
+        .how-blob-2 { width:320px; height:320px; background:#667eea; bottom:-80px; right:-100px; }
+
+        /* ── Tab strip ── */
+        .how-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 48px;
+        }
+        .how-tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.07);
+            border: 1.5px solid rgba(255,215,0,0.2);
+            border-radius: 40px;
+            padding: 9px 20px;
             cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.65);
+            transition: all 0.3s;
+            user-select: none;
+            font-family: 'Poppins', sans-serif;
+        }
+        .how-tab .tab-num {
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: rgba(255,215,0,0.15);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 800; color: #ffd700;
             transition: all 0.3s;
         }
-        
-        .newsletter-form button:hover {
-            background: #fff;
+        .how-tab:hover,
+        .how-tab.active {
+            background: rgba(255,215,0,0.14);
+            border-color: #ffd700;
+            color: #fff;
         }
-        
-        .footer-bottom {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,215,0,0.2);
-            font-size: 13px;
-            opacity: 0.7;
+        .how-tab.active .tab-num {
+            background: #ffd700;
+            color: #1a1a2e;
         }
-        
-        .footer-bottom a {
+
+        /* ── Main panel ── */
+        .how-panel-wrap {
+            display: none;
+            animation: fadeSlideUp 0.45s ease both;
+        }
+        .how-panel-wrap.active { display: flex; }
+
+        @keyframes fadeSlideUp {
+            from { opacity:0; transform: translateY(22px); }
+            to   { opacity:1; transform: translateY(0); }
+        }
+
+        .how-panel {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            background: rgba(255,255,255,0.06);
+            border: 1.5px solid rgba(255,215,0,0.22);
+            border-radius: 24px;
+            overflow: hidden;
+            width: 100%;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+        }
+
+        /* Left: text side */
+        .how-panel-text {
+            flex: 1;
+            padding: 44px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .how-step-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,215,0,0.12);
+            border: 1px solid rgba(255,215,0,0.35);
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
             color: #ffd700;
-            text-decoration: none;
-            margin: 0 5px;
+            margin-bottom: 18px;
+            width: fit-content;
         }
-        
+        .how-step-badge i { font-size: 12px; }
+
+        .how-panel-text h3 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 14px;
+            line-height: 1.25;
+        }
+        .how-panel-text p {
+            font-size: 14.5px;
+            line-height: 1.75;
+            opacity: 0.82;
+            margin-bottom: 24px;
+        }
+
+        /* Bullet checklist */
+        .how-checklist {
+            list-style: none;
+            padding: 0; margin: 0 0 28px;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .how-checklist li {
+            display: flex; align-items: flex-start; gap: 10px;
+            font-size: 13.5px; opacity: 0.88;
+        }
+        .how-checklist li::before {
+            content: '';
+            flex-shrink: 0;
+            width: 18px; height: 18px;
+            margin-top: 1px;
+            border-radius: 50%;
+            background: rgba(255,215,0,0.15);
+            border: 1.5px solid #ffd700;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23ffd700' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 10px;
+        }
+
+        /* CTA link inside panel */
+        .how-cta {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #ffd700; color: #1a1a2e;
+            padding: 11px 26px; border-radius: 30px;
+            font-size: 13.5px; font-weight: 700;
+            text-decoration: none;
+            width: fit-content;
+            transition: all 0.3s;
+        }
+        .how-cta:hover {
+            background: #fff; color: #1a1a2e;
+            transform: translateX(4px);
+        }
+
+        /* Right: visual side */
+        .how-panel-visual {
+            width: 42%;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            min-height: 380px;
+        }
+        .how-panel-visual .vis-bg {
+            position: absolute; inset: 0;
+            background: linear-gradient(145deg, rgba(255,215,0,0.08) 0%, rgba(102,126,234,0.12) 100%);
+        }
+
+        /* Floating UI mockup card inside visual */
+        .vis-mockup {
+            position: absolute;
+            inset: 20px;
+            background: rgba(15,10,35,0.75);
+            border-radius: 16px;
+            border: 1px solid rgba(255,215,0,0.18);
+            overflow: hidden;
+            display: flex; flex-direction: column;
+        }
+        .vis-topbar {
+            background: rgba(255,255,255,0.05);
+            padding: 10px 14px;
+            display: flex; align-items: center; gap: 7px;
+            border-bottom: 1px solid rgba(255,215,0,0.1);
+        }
+        .vis-dot { width:9px; height:9px; border-radius:50%; }
+        .vis-dot.r { background:#f87171; }
+        .vis-dot.y { background:#ffd700; }
+        .vis-dot.g { background:#4ade80; }
+        .vis-title-bar {
+            flex: 1; text-align: center;
+            font-size: 10px; opacity: 0.5; font-weight: 600;
+        }
+        .vis-body { flex:1; padding:14px; display:flex; flex-direction:column; gap:10px; }
+
+        /* Generic shimmer rows */
+        .vis-row { display:flex; gap:8px; align-items:center; }
+        .vis-avatar {
+            width:28px; height:28px; border-radius:50%;
+            background: rgba(255,215,0,0.25); flex-shrink:0;
+            display:flex; align-items:center; justify-content:center;
+            font-size:11px;
+        }
+        .vis-lines { display:flex; flex-direction:column; gap:4px; flex:1; }
+        .vis-line {
+            height:6px; border-radius:3px;
+            background: rgba(255,255,255,0.1);
+        }
+        .vis-badge-sm {
+            padding: 2px 8px; border-radius: 20px;
+            font-size: 9px; font-weight: 700;
+            flex-shrink: 0;
+        }
+        .vb-red    { background:rgba(248,113,113,0.25); color:#f87171; border:1px solid rgba(248,113,113,0.4); }
+        .vb-orange { background:rgba(251,146,60,0.25);  color:#fb923c; border:1px solid rgba(251,146,60,0.4);  }
+        .vb-yellow { background:rgba(255,215,0,0.2);    color:#ffd700; border:1px solid rgba(255,215,0,0.35);  }
+        .vb-green  { background:rgba(74,222,128,0.2);   color:#4ade80; border:1px solid rgba(74,222,128,0.4);  }
+
+        /* Animated progress bar in vis */
+        .vis-progress-wrap { margin-top:4px; }
+        .vis-progress-label { display:flex; justify-content:space-between; font-size:9px; opacity:0.55; margin-bottom:4px; }
+        .vis-progress-bar { height:5px; border-radius:3px; background:rgba(255,255,255,0.08); overflow:hidden; }
+        .vis-progress-fill {
+            height:100%; border-radius:3px;
+            background: linear-gradient(90deg, #ffd700, #f59e0b);
+            animation: fillBar 2s ease infinite alternate;
+        }
+        @keyframes fillBar {
+            from { width: 40%; }
+            to   { width: 88%; }
+        }
+
+        /* Big icon display for simple panels */
+        .vis-icon-center {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            height: 100%; gap: 12px; padding: 20px;
+        }
+        .vis-icon-circle {
+            width: 90px; height: 90px; border-radius: 50%;
+            background: rgba(255,215,0,0.12);
+            border: 2px solid rgba(255,215,0,0.35);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 38px;
+            animation: pulse 2.5s ease infinite;
+        }
+        @keyframes pulse {
+            0%,100% { box-shadow: 0 0 0 0   rgba(255,215,0,0.35); }
+            50%      { box-shadow: 0 0 0 18px rgba(255,215,0,0);    }
+        }
+        .vis-icon-label { font-size: 12px; opacity: 0.6; text-align:center; }
+
+        /* Step counter strip at bottom of panel */
+        .how-step-nav {
+            display: flex; justify-content: center;
+            align-items: center; gap: 10px;
+            margin-top: 28px;
+        }
+        .how-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: rgba(255,215,0,0.25);
+            cursor: pointer; transition: all 0.3s;
+            border: none; padding: 0;
+        }
+        .how-dot.active {
+            background: #ffd700;
+            transform: scale(1.4);
+        }
+        .how-nav-btn {
+            background: rgba(255,215,0,0.12);
+            border: 1.5px solid rgba(255,215,0,0.3);
+            border-radius: 50%;
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            color: #ffd700; font-size: 13px;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .how-nav-btn:hover { background: #ffd700; color: #1a1a2e; }
+
+        /* Progress track above tabs */
+        .how-progress-track {
+            display: flex; justify-content: center;
+            align-items: center; gap: 0;
+            margin-bottom: 32px;
+        }
+        .hpt-step {
+            display: flex; flex-direction: column; align-items: center; position: relative;
+        }
+        .hpt-circle {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(255,255,255,0.07);
+            border: 2px solid rgba(255,215,0,0.25);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 800; color: rgba(255,255,255,0.4);
+            transition: all 0.4s; cursor: pointer; z-index: 2;
+        }
+        .hpt-circle.active {
+            background: #ffd700; border-color: #ffd700;
+            color: #1a1a2e;
+            box-shadow: 0 0 0 6px rgba(255,215,0,0.2);
+        }
+        .hpt-circle.done {
+            background: rgba(255,215,0,0.2);
+            border-color: #ffd700;
+            color: #ffd700;
+        }
+        .hpt-label {
+            font-size: 10px; font-weight: 600;
+            margin-top: 6px; opacity: 0.55;
+            white-space: nowrap; text-align: center;
+            max-width: 70px;
+        }
+        .hpt-circle.active ~ .hpt-label,
+        .hpt-label.active { opacity: 1; color: #ffd700; }
+        .hpt-line {
+            height: 2px; flex: 1; max-width: 80px; min-width: 30px;
+            background: rgba(255,215,0,0.15);
+            margin-bottom: 26px;
+            transition: background 0.4s;
+        }
+        .hpt-line.done { background: rgba(255,215,0,0.6); }
+
         /* Responsive */
+        @media (max-width: 900px) {
+            .how-panel { flex-direction: column; }
+            .how-panel-visual { width: 100%; min-height: 240px; }
+            .how-panel-text { padding: 30px 24px; }
+        }
+        @media (max-width: 600px) {
+            .how-progress-track { gap: 0; }
+            .hpt-line { max-width: 30px; min-width: 16px; }
+            .hpt-label { font-size: 9px; max-width: 52px; }
+            .hpt-circle { width: 32px; height: 32px; font-size: 11px; }
+        }
+
+        /* ── Responsive ── */
         @media (max-width: 991px) {
             .navbar-nav { margin-top: 15px; }
-            .nav-item { margin: 8px 0; }
+            .nav-item { margin: 5px 0; }
             .nav-btn {
-                margin: 5px 0 !important;
+                margin: 4px 0 !important;
                 display: inline-block !important;
-                width: 100%;
+                width: auto;
                 text-align: center;
             }
             .hero h1 { font-size: 32px; }
         }
-        
         @media (max-width: 767px) {
-            .hero { padding: 100px 0 30px; }
-            .btn-primary, .btn-outline {
-                display: block;
-                margin: 10px auto;
-                max-width: 220px;
-            }
-            .footer-title { margin-top: 25px; }
+            .hero { padding: 110px 0 40px; }
+            .footer-title { margin-top: 30px; }
             .risk-pills { gap: 6px; }
+            .stat-number { font-size: 28px; }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+
+    <!-- ── Navigation ── -->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <i class="fas fa-graduation-cap"></i>
-                EduPredict
+                <i class="fas fa-graduation-cap"></i>EduPredict
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon" style="color: #fff;"></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#why-choose">Why Choose Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#how-it-works">How It Works</a></li>
                     <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
                     <li class="nav-item"><a class="nav-link" href="#connect">Connect</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-btn" href="/login"><i class="fas fa-user"></i> Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-btn" href="/signup"><i class="fas fa-user-plus"></i> Sign Up</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link nav-btn" href="/login"><i class="fas fa-user"></i> Login</a></li>
+                    <li class="nav-item"><a class="nav-link nav-btn" href="/signup"><i class="fas fa-user-plus"></i> Sign Up</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- ── Hero ── -->
     <section class="hero">
         <div class="container">
             <h1 data-aos="fade-up">
-                Predict & Prevent <br>
+                Predict &amp; Prevent<br>
                 <span class="highlight">Student Dropout</span>
             </h1>
             <p data-aos="fade-up" data-aos-delay="100">
-                Use AI-powered analytics to identify at-risk students early 
+                Use AI-powered analytics to identify at-risk students early
                 and take action to improve graduation rates.
             </p>
-            
+
             <div class="school-image" data-aos="zoom-in" data-aos-delay="200">
-                <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                      alt="School Campus">
             </div>
-            
-            <div data-aos="fade-up" data-aos-delay="300">
+
+            <!-- FIX: flex wrapper keeps buttons centred on every screen size -->
+            <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
                 <a href="/signup" class="btn-primary">
                     <i class="fas fa-rocket"></i> Get Started
                 </a>
@@ -887,78 +828,65 @@
         </div>
     </section>
 
-    <!-- Why Choose Us Section -->
+    <!-- ── Why Choose Us ── -->
     <section id="why-choose" class="features">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
                 <h2>Why Choose Us</h2>
                 <p>Powerful features to help you succeed</p>
             </div>
-            
-            <div class="row">
+            <div class="row g-4">
                 <div class="col-md-4" data-aos="flip-left" data-aos-delay="100">
                     <div class="feature-card">
                         <i class="fas fa-brain"></i>
                         <h3>AI-Powered</h3>
-                        <p>Advanced machine learning algorithms predict dropout risk with 95% accuracy</p>
+                        <p>Advanced machine learning algorithms predict dropout risk with 95% accuracy.</p>
                     </div>
                 </div>
                 <div class="col-md-4" data-aos="flip-left" data-aos-delay="200">
                     <div class="feature-card">
                         <i class="fas fa-chart-line"></i>
                         <h3>Real-time Analytics</h3>
-                        <p>Monitor student performance and risk levels in real-time</p>
+                        <p>Monitor student performance and risk levels in real-time dashboards.</p>
                     </div>
                 </div>
                 <div class="col-md-4" data-aos="flip-left" data-aos-delay="300">
                     <div class="feature-card">
                         <i class="fas fa-shield-alt"></i>
                         <h3>Data Security</h3>
-                        <p>Enterprise-grade encryption to protect sensitive information</p>
+                        <p>Enterprise-grade encryption to protect all sensitive student information.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         DROPOUT INTERVENTION PROGRAMS SECTION
-         (replaces the original "Interactive Learning Environment")
-    ════════════════════════════════════════════════════════════ -->
+    <!-- ── Intervention Programs ── -->
     <section id="intervention" class="intervention-section">
         <div class="container">
-
             <div class="section-title" data-aos="fade-up">
                 <h2>Dropout Intervention Programs</h2>
                 <p>Proactive measures to keep every student in school</p>
             </div>
-
-            <div class="row">
+            <div class="row g-4">
 
                 <!-- Card 1 — Teacher Home Visit -->
                 <div class="col-md-6" data-aos="fade-right">
                     <div class="three-d-card">
-
-                        <!-- Illustration -->
                         <div class="card-illustration bg-home">
                             <div class="scene-home">
-                                <!-- House -->
                                 <div class="s-house">
                                     <div class="s-win"></div>
                                     <div class="s-door"></div>
                                 </div>
-                                <!-- Teacher -->
                                 <div class="s-person">
                                     <div class="s-head"></div>
                                     <div class="s-body"></div>
                                 </div>
                                 <div class="s-brief"></div>
-                                <!-- Alert star -->
                                 <div class="s-alert"></div>
                             </div>
                         </div>
-
-                        <!-- Text -->
                         <span class="card-tag"><i class="fas fa-house-user me-1"></i> Outreach</span>
                         <h3>Teacher Home Visit Program</h3>
                         <p>
@@ -978,8 +906,6 @@
                 <!-- Card 2 — Government Scholarship -->
                 <div class="col-md-6" data-aos="fade-left">
                     <div class="three-d-card gold-border">
-
-                        <!-- Illustration -->
                         <div class="card-illustration bg-scholar">
                             <div class="scene-scholar">
                                 <div class="s-cert">
@@ -992,8 +918,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Text -->
                         <span class="card-tag"><i class="fas fa-award me-1"></i> Scholarship</span>
                         <h3>Government Scholarship Schemes</h3>
                         <p>
@@ -1010,12 +934,304 @@
                     </div>
                 </div>
 
-            </div><!-- /.row -->
-        </div><!-- /.container -->
+            </div>
+        </div>
     </section>
-    <!-- ═══════════════════════════════════════════════════════════ -->
 
-    <!-- Stats Section -->
+    <!-- ── How It Works ── -->
+    <section id="how-it-works" class="how-section">
+        <div class="how-blob how-blob-1"></div>
+        <div class="how-blob how-blob-2"></div>
+
+        <div class="container" style="position:relative;z-index:2;">
+            <div class="section-title" data-aos="fade-up">
+                <h2>How It Works</h2>
+                <p>From sign-up to intervention — your complete journey in 5 simple steps</p>
+            </div>
+
+            <!-- Progress stepper -->
+            <div class="how-progress-track" data-aos="fade-up" data-aos-delay="80">
+                <div class="hpt-step">
+                    <div class="hpt-circle active" data-step="0">1</div>
+                    <div class="hpt-label">Sign Up</div>
+                </div>
+                <div class="hpt-line" id="hline-0"></div>
+                <div class="hpt-step">
+                    <div class="hpt-circle" data-step="1">2</div>
+                    <div class="hpt-label">Upload Data</div>
+                </div>
+                <div class="hpt-line" id="hline-1"></div>
+                <div class="hpt-step">
+                    <div class="hpt-circle" data-step="2">3</div>
+                    <div class="hpt-label">AI Predicts</div>
+                </div>
+                <div class="hpt-line" id="hline-2"></div>
+                <div class="hpt-step">
+                    <div class="hpt-circle" data-step="3">4</div>
+                    <div class="hpt-label">Get Alerts</div>
+                </div>
+                <div class="hpt-line" id="hline-3"></div>
+                <div class="hpt-step">
+                    <div class="hpt-circle" data-step="4">5</div>
+                    <div class="hpt-label">Track Results</div>
+                </div>
+            </div>
+
+            <!-- ─ Panel 1: Create Account ─ -->
+            <div class="how-panel-wrap active" id="hpanel-0" data-aos="fade-up" data-aos-delay="150">
+                <div class="how-panel">
+                    <div class="how-panel-text">
+                        <div class="how-step-badge"><i class="fas fa-user-plus"></i> Step 1 of 5</div>
+                        <h3>Create Your Account</h3>
+                        <p>Sign up in under 60 seconds. Choose your role — School Administrator or Teacher — enter your institution details, and you're in. No lengthy setup, no technical knowledge required.</p>
+                        <ul class="how-checklist">
+                            <li>Select role: Administrator or Teacher</li>
+                            <li>Enter school name &amp; district info</li>
+                            <li>Verify email &amp; set a secure password</li>
+                            <li>Instant dashboard access — no waiting</li>
+                        </ul>
+                        <a href="/signup" class="how-cta"><i class="fas fa-arrow-right"></i> Get Started Free</a>
+                    </div>
+                    <div class="how-panel-visual">
+                        <div class="vis-bg"></div>
+                        <div class="vis-mockup">
+                            <div class="vis-topbar">
+                                <div class="vis-dot r"></div><div class="vis-dot y"></div><div class="vis-dot g"></div>
+                                <div class="vis-title-bar">EduPredict — Sign Up</div>
+                            </div>
+                            <div class="vis-body" style="justify-content:center;gap:14px;padding:24px;">
+                                <div style="text-align:center;font-size:11px;opacity:0.5;margin-bottom:4px;">Create your account</div>
+                                <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:9px 12px;font-size:10px;opacity:0.6;">🏫 &nbsp; School / Institution Name</div>
+                                <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:9px 12px;font-size:10px;opacity:0.6;">✉️ &nbsp; Email Address</div>
+                                <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:9px 12px;font-size:10px;opacity:0.6;">🔒 &nbsp; Password</div>
+                                <div style="display:flex;gap:8px;margin-top:4px;">
+                                    <div style="flex:1;text-align:center;background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);border-radius:6px;padding:7px;font-size:9.5px;opacity:0.7;">👨‍🏫 Teacher</div>
+                                    <div style="flex:1;text-align:center;background:#ffd700;border-radius:6px;padding:7px;font-size:9.5px;color:#1a1a2e;font-weight:700;">🏛️ Admin</div>
+                                </div>
+                                <div style="background:#ffd700;border-radius:8px;padding:9px;text-align:center;font-size:11px;font-weight:800;color:#1a1a2e;margin-top:6px;">Create Account →</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─ Panel 2: Upload Data ─ -->
+            <div class="how-panel-wrap" id="hpanel-1">
+                <div class="how-panel">
+                    <div class="how-panel-text">
+                        <div class="how-step-badge"><i class="fas fa-file-upload"></i> Step 2 of 5</div>
+                        <h3>Upload Student Data</h3>
+                        <p>Import student records via CSV, Excel, or enter them manually through our form. EduPredict automatically maps your columns and validates the data before processing.</p>
+                        <ul class="how-checklist">
+                            <li>Drag &amp; drop CSV / Excel file upload</li>
+                            <li>15+ supported risk-factor columns</li>
+                            <li>Automatic column mapping &amp; validation</li>
+                            <li>Bulk import of 300+ records in seconds</li>
+                        </ul>
+                        <a href="/signup" class="how-cta"><i class="fas fa-upload"></i> Try It Now</a>
+                    </div>
+                    <div class="how-panel-visual">
+                        <div class="vis-bg"></div>
+                        <div class="vis-mockup">
+                            <div class="vis-topbar">
+                                <div class="vis-dot r"></div><div class="vis-dot y"></div><div class="vis-dot g"></div>
+                                <div class="vis-title-bar">Import Students</div>
+                            </div>
+                            <div class="vis-body" style="justify-content:center;align-items:center;gap:12px;">
+                                <div style="border:2px dashed rgba(255,215,0,0.35);border-radius:12px;padding:20px 28px;text-align:center;width:100%;">
+                                    <div style="font-size:28px;margin-bottom:8px;">📂</div>
+                                    <div style="font-size:10px;opacity:0.6;">Drag &amp; drop your CSV here</div>
+                                    <div style="font-size:9px;opacity:0.4;margin-top:4px;">or click to browse</div>
+                                </div>
+                                <div style="width:100%;font-size:9px;opacity:0.5;text-align:center;">— or manually enter data —</div>
+                                <div style="width:100%;background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);border-radius:8px;overflow:hidden;">
+                                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;font-size:8.5px;font-weight:700;opacity:0.6;padding:5px 10px;border-bottom:1px solid rgba(255,215,0,0.1);">
+                                        <span>Name</span><span>Attendance</span><span>Grade</span>
+                                    </div>
+                                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;font-size:8px;opacity:0.5;padding:5px 10px;">
+                                        <span>Ravi K.</span><span>62%</span><span>C</span>
+                                    </div>
+                                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;font-size:8px;opacity:0.5;padding:5px 10px;background:rgba(255,255,255,0.03);">
+                                        <span>Priya S.</span><span>88%</span><span>A</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─ Panel 3: AI Predicts ─ -->
+            <div class="how-panel-wrap" id="hpanel-2">
+                <div class="how-panel">
+                    <div class="how-panel-text">
+                        <div class="how-step-badge"><i class="fas fa-brain"></i> Step 3 of 5</div>
+                        <h3>AI Analyses &amp; Predicts</h3>
+                        <p>Our trained ML model processes every uploaded record in real time and assigns each student a colour-coded risk level — instantly visible on the dashboard.</p>
+                        <ul class="how-checklist">
+                            <li><span style="color:#f87171;font-weight:700;">● Critical</span> — Immediate action required</li>
+                            <li><span style="color:#fb923c;font-weight:700;">● High</span> — Elevated dropout likelihood</li>
+                            <li><span style="color:#ffd700;font-weight:700;">● Medium</span> — Monitor closely</li>
+                            <li><span style="color:#4ade80;font-weight:700;">● Low</span> — On track, no intervention needed</li>
+                        </ul>
+                        <a href="/signup" class="how-cta"><i class="fas fa-chart-bar"></i> See Dashboard</a>
+                    </div>
+                    <div class="how-panel-visual">
+                        <div class="vis-bg"></div>
+                        <div class="vis-mockup">
+                            <div class="vis-topbar">
+                                <div class="vis-dot r"></div><div class="vis-dot y"></div><div class="vis-dot g"></div>
+                                <div class="vis-title-bar">Risk Analysis Dashboard</div>
+                            </div>
+                            <div class="vis-body">
+                                <div style="font-size:9px;opacity:0.45;margin-bottom:2px;">Student Risk Overview</div>
+                                <div class="vis-row">
+                                    <div class="vis-avatar">👦</div>
+                                    <div class="vis-lines"><div class="vis-line" style="width:80%"></div><div class="vis-line" style="width:50%"></div></div>
+                                    <div class="vis-badge-sm vb-red">CRITICAL</div>
+                                </div>
+                                <div class="vis-row">
+                                    <div class="vis-avatar">👧</div>
+                                    <div class="vis-lines"><div class="vis-line" style="width:70%"></div><div class="vis-line" style="width:40%"></div></div>
+                                    <div class="vis-badge-sm vb-orange">HIGH</div>
+                                </div>
+                                <div class="vis-row">
+                                    <div class="vis-avatar">🧒</div>
+                                    <div class="vis-lines"><div class="vis-line" style="width:65%"></div><div class="vis-line" style="width:35%"></div></div>
+                                    <div class="vis-badge-sm vb-yellow">MEDIUM</div>
+                                </div>
+                                <div class="vis-row">
+                                    <div class="vis-avatar">👦</div>
+                                    <div class="vis-lines"><div class="vis-line" style="width:75%"></div><div class="vis-line" style="width:45%"></div></div>
+                                    <div class="vis-badge-sm vb-green">LOW</div>
+                                </div>
+                                <div class="vis-progress-wrap" style="margin-top:6px;">
+                                    <div class="vis-progress-label"><span>Model Confidence</span><span>93.33%</span></div>
+                                    <div class="vis-progress-bar"><div class="vis-progress-fill"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─ Panel 4: Smart Alerts ─ -->
+            <div class="how-panel-wrap" id="hpanel-3">
+                <div class="how-panel">
+                    <div class="how-panel-text">
+                        <div class="how-step-badge"><i class="fas fa-bell"></i> Step 4 of 5</div>
+                        <h3>Receive Smart Alerts</h3>
+                        <p>The moment a student is flagged, teachers receive targeted, actionable alerts. Each alert comes with a recommended intervention and a one-click action button.</p>
+                        <ul class="how-checklist">
+                            <li>Instant in-dashboard &amp; email notifications</li>
+                            <li>One-click home visit scheduling</li>
+                            <li>Counselling &amp; scholarship referral links</li>
+                            <li>Priority queue sorted by risk severity</li>
+                        </ul>
+                        <a href="/signup" class="how-cta"><i class="fas fa-bell"></i> Enable Alerts</a>
+                    </div>
+                    <div class="how-panel-visual">
+                        <div class="vis-bg"></div>
+                        <div class="vis-mockup">
+                            <div class="vis-topbar">
+                                <div class="vis-dot r"></div><div class="vis-dot y"></div><div class="vis-dot g"></div>
+                                <div class="vis-title-bar">Notifications — 3 new</div>
+                            </div>
+                            <div class="vis-body" style="gap:8px;">
+                                <div style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:10px;padding:10px 12px;">
+                                    <div style="font-size:9.5px;color:#f87171;font-weight:700;margin-bottom:3px;">🚨 CRITICAL — Ravi Kumar</div>
+                                    <div style="font-size:8.5px;opacity:0.6;">Attendance dropped below 50%. Immediate home visit recommended.</div>
+                                    <div style="margin-top:7px;background:rgba(248,113,113,0.25);border-radius:6px;padding:5px 8px;font-size:8px;font-weight:700;color:#f87171;text-align:center;">Schedule Visit →</div>
+                                </div>
+                                <div style="background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.3);border-radius:10px;padding:10px 12px;">
+                                    <div style="font-size:9.5px;color:#fb923c;font-weight:700;margin-bottom:3px;">⚠️ HIGH — Sneha Patel</div>
+                                    <div style="font-size:8.5px;opacity:0.6;">3 consecutive failed exams. Scholarship referral available.</div>
+                                    <div style="margin-top:7px;background:rgba(251,146,60,0.2);border-radius:6px;padding:5px 8px;font-size:8px;font-weight:700;color:#fb923c;text-align:center;">Apply Scholarship →</div>
+                                </div>
+                                <div style="background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.2);border-radius:10px;padding:10px 12px;">
+                                    <div style="font-size:9.5px;color:#ffd700;font-weight:700;margin-bottom:3px;">📋 MEDIUM — Arjun Nair</div>
+                                    <div style="font-size:8.5px;opacity:0.6;">Slight attendance decline. Monitor and check in next week.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─ Panel 5: Track Results ─ -->
+            <div class="how-panel-wrap" id="hpanel-4">
+                <div class="how-panel">
+                    <div class="how-panel-text">
+                        <div class="how-step-badge"><i class="fas fa-chart-line"></i> Step 5 of 5</div>
+                        <h3>Track &amp; Improve Outcomes</h3>
+                        <p>Watch graduation rates rise over time. The live analytics dashboard tracks every intervention, measures its impact, and generates district-ready reports with one click.</p>
+                        <ul class="how-checklist">
+                            <li>Live intervention outcome tracking</li>
+                            <li>Monthly &amp; annual graduation rate trends</li>
+                            <li>One-click district PDF reports</li>
+                            <li>AI-suggested strategy refinements</li>
+                        </ul>
+                        <a href="/signup" class="how-cta"><i class="fas fa-chart-line"></i> View Analytics</a>
+                    </div>
+                    <div class="how-panel-visual">
+                        <div class="vis-bg"></div>
+                        <div class="vis-mockup">
+                            <div class="vis-topbar">
+                                <div class="vis-dot r"></div><div class="vis-dot y"></div><div class="vis-dot g"></div>
+                                <div class="vis-title-bar">Analytics Overview</div>
+                            </div>
+                            <div class="vis-body" style="gap:10px;">
+                                <div style="display:flex;gap:8px;">
+                                    <div style="flex:1;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);border-radius:8px;padding:8px 10px;text-align:center;">
+                                        <div style="font-size:16px;font-weight:800;color:#4ade80;">↑ 12%</div>
+                                        <div style="font-size:8px;opacity:0.55;margin-top:2px;">Grad Rate</div>
+                                    </div>
+                                    <div style="flex:1;background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:8px 10px;text-align:center;">
+                                        <div style="font-size:16px;font-weight:800;color:#ffd700;">47</div>
+                                        <div style="font-size:8px;opacity:0.55;margin-top:2px;">Interventions</div>
+                                    </div>
+                                    <div style="flex:1;background:rgba(102,126,234,0.1);border:1px solid rgba(102,126,234,0.25);border-radius:8px;padding:8px 10px;text-align:center;">
+                                        <div style="font-size:16px;font-weight:800;color:#a5b4fc;">38</div>
+                                        <div style="font-size:8px;opacity:0.55;margin-top:2px;">Retained</div>
+                                    </div>
+                                </div>
+                                <div style="font-size:9px;opacity:0.45;">Monthly Dropout Rate Trend</div>
+                                <svg viewBox="0 0 160 50" style="width:100%;opacity:0.8;">
+                                    <defs>
+                                        <linearGradient id="gfill" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="#4ade80" stop-opacity="0.25"/>
+                                            <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <polygon points="0,42 32,36 64,28 96,18 128,12 160,8 160,50 0,50" fill="url(#gfill)"/>
+                                    <polyline points="0,42 32,36 64,28 96,18 128,12 160,8"
+                                        fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                <div style="display:flex;justify-content:space-between;gap:8px;">
+                                    <div style="flex:1;background:#ffd700;border-radius:6px;padding:6px 10px;font-size:8.5px;font-weight:800;color:#1a1a2e;text-align:center;">⬇ Export PDF Report</div>
+                                    <div style="border:1px solid rgba(255,215,0,0.3);border-radius:6px;padding:6px 10px;font-size:8.5px;opacity:0.6;text-align:center;">Share District</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step nav dots -->
+            <div class="how-step-nav" style="margin-top:28px;">
+                <button class="how-nav-btn" id="how-prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+                <button class="how-dot active" data-step="0"></button>
+                <button class="how-dot" data-step="1"></button>
+                <button class="how-dot" data-step="2"></button>
+                <button class="how-dot" data-step="3"></button>
+                <button class="how-dot" data-step="4"></button>
+                <button class="how-nav-btn" id="how-next" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ── Stats ── -->
     <section class="stats">
         <div class="container">
             <div class="row">
@@ -1047,56 +1263,52 @@
         </div>
     </section>
 
-    <!-- Team Section -->
+    <!-- ── Team ── -->
     <section id="team" class="team-section">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
                 <h2>Our Team</h2>
                 <p>Meet the experts behind EduPredict</p>
             </div>
-            
-            <div class="row">
+            <div class="row g-4">
                 <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="team-card">
                         <div class="team-image">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Smith">
+                            <img src="/static/images/charan.jpeg" alt="Surya Sricharan">
                         </div>
-                        <h3>John Smith</h3>
-                        <div class="position">Lead AI Engineer</div>
-                        <p>PhD in Machine Learning with 8+ years experience</p>
+                        <h3>Surya Sricharan</h3>
+                        <div class="position">Full Stack Developer</div>
+                        <p>Passionate about creating innovative solutions and leading development teams to deliver high-quality software.</p>
                         <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/dasari-surya-sricharan"><i class="fab fa-linkedin"></i></a>
+                            <a href="http://github.com/sri-charan12"><i class="fab fa-github"></i></a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
                     <div class="team-card">
                         <div class="team-image">
-                            <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Michael Chen">
+                            <img src="/static/images/suhitha.jpeg" alt="Suhitha">
                         </div>
-                        <h3>Michael Chen</h3>
-                        <div class="position">Data Scientist</div>
-                        <p>Expert in predictive analytics and statistical modeling</p>
+                        <h3>Suhitha</h3>
+                        <div class="position">AI Engineer</div>
+                        <p>Designs machine learning systems, processes data, improves platform intelligence capabilities.</p>
                         <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/suhitha-reddy-21735a326"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/suhithareddy2024-sketch"><i class="fab fa-github"></i></a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
                     <div class="team-card">
                         <div class="team-image">
-                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Sarah Johnson">
+                            <img src="/static/images/nomith.jpeg" alt="Nomith">
                         </div>
-                        <h3>Sarah Johnson</h3>
-                        <div class="position">Education Specialist</div>
-                        <p>Former teacher with expertise in student counseling</p>
+                        <h3>Nomith</h3>
+                        <div class="position">Data Analyst</div>
+                        <p>Analyses data to provide insights and support data-driven decision making.</p>
                         <div class="team-social">
                             <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
                             <a href="#"><i class="fab fa-github"></i></a>
                         </div>
                     </div>
@@ -1104,15 +1316,14 @@
                 <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
                     <div class="team-card">
                         <div class="team-image">
-                            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="David Williams">
+                            <img src="/static/images/gowtham.jpeg" alt="Gowtham">
                         </div>
-                        <h3>David Williams</h3>
-                        <div class="position">Full Stack Developer</div>
-                        <p>Creates intuitive interfaces and seamless experiences</p>
+                        <h3>Gowtham</h3>
+                        <div class="position">UI/UX Designer</div>
+                        <p>Designs intuitive interfaces ensuring smooth navigation and engaging user experience.</p>
                         <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/r-gowtham-93a567377/"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/2300033717"><i class="fab fa-github"></i></a>
                         </div>
                     </div>
                 </div>
@@ -1120,118 +1331,110 @@
         </div>
     </section>
 
-    <!-- Connect Us Section -->
+    <!-- ── Connect ── -->
     <section id="connect" class="connect-section">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
                 <h2>Connect With Us</h2>
                 <p>We're here to help and answer any questions</p>
             </div>
-            
-            <div class="row">
-                <div class="col-md-3 col-6" data-aos="flip-left" data-aos-delay="100">
+
+            <!-- FIX: only 2 cards — justify-content-center keeps them centred, not left-aligned -->
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4 col-sm-6" data-aos="flip-left" data-aos-delay="100">
                     <div class="connect-card">
                         <div class="connect-icon"><i class="fas fa-phone-alt"></i></div>
                         <h3>Call Us</h3>
-                        <p>+1 (555) 123-4567</p>
-                        <p>Mon-Fri, 9am-6pm</p>
-                        <a href="tel:+15551234567" class="connect-btn">Call Now</a>
+                        <p>+91 955154 16932</p>
+                        <p>Mon–Fri, 9 am – 12 pm</p>
+                        <a href="tel:+919551541693" class="connect-btn">Call Now</a>
                     </div>
                 </div>
-                <div class="col-md-3 col-6" data-aos="flip-left" data-aos-delay="200">
+                <div class="col-md-4 col-sm-6" data-aos="flip-left" data-aos-delay="200">
                     <div class="connect-card">
                         <div class="connect-icon"><i class="fas fa-envelope"></i></div>
                         <h3>Email Us</h3>
-                        <p>support@edupredict.com</p>
-                        <p>sales@edupredict.com</p>
-                        <a href="mailto:support@edupredict.com" class="connect-btn">Send Email</a>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6" data-aos="flip-left" data-aos-delay="300">
-                    <div class="connect-card">
-                        <div class="connect-icon"><i class="fas fa-map-marker-alt"></i></div>
-                        <h3>Visit Us</h3>
-                        <p>123 Education Street</p>
-                        <p>San Francisco, CA</p>
-                        <a href="#" class="connect-btn">Get Directions</a>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6" data-aos="flip-left" data-aos-delay="400">
-                    <div class="connect-card">
-                        <div class="connect-icon"><i class="fas fa-comment"></i></div>
-                        <h3>Live Chat</h3>
-                        <p>24/7 Customer Support</p>
-                        <p>Instant Responses</p>
-                        <a href="#" class="connect-btn">Start Chat</a>
+                        <p>edupredict12@gmail.com</p>
+                        <a href="mailto:edupredict12@gmail.com" class="connect-btn">Send Email</a>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- ── Footer ── -->
     <footer class="footer">
         <div class="container">
-            <div class="row">
+            <div class="row g-4">
+
+                <!-- About -->
                 <div class="col-lg-4 col-md-6">
                     <div class="footer-logo">
                         <i class="fas fa-graduation-cap"></i>EduPredict
                     </div>
                     <p class="footer-about">
-                        Revolutionizing education through AI-powered analytics. 
-                        We help institutions identify at-risk students and improve 
+                        Revolutionizing education through AI-powered analytics.
+                        We help institutions identify at-risk students and improve
                         graduation rates through early intervention.
                     </p>
+                    <!-- FIX: social icons restored in about column -->
                     <div class="footer-social">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
+
+                <!-- Quick Links -->
                 <div class="col-lg-2 col-md-6">
                     <h4 class="footer-title">Quick Links</h4>
                     <ul class="footer-links">
                         <li><a href="/">Home</a></li>
                         <li><a href="#why-choose">Why Choose Us</a></li>
                         <li><a href="#intervention">Intervention</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
                         <li><a href="#team">Our Team</a></li>
                         <li><a href="#connect">Connect</a></li>
                         <li><a href="/login">Login</a></li>
                         <li><a href="/signup">Sign Up</a></li>
                     </ul>
                 </div>
+
+                <!-- Resources — FIX: was empty, now has newsletter -->
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="footer-title">Resources</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Case Studies</a></li>
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Support Center</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
+                    <h4 class="footer-title">Newsletter</h4>
+                    <p style="font-size:14px;opacity:0.8;margin-bottom:4px;">
+                        Get updates on new features and early-intervention research directly in your inbox.
+                    </p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Your email address">
+                        <button type="button"><i class="fas fa-paper-plane"></i></button>
+                    </div>
                 </div>
+
+                <!-- Contact -->
                 <div class="col-lg-3 col-md-6">
                     <h4 class="footer-title">Contact Info</h4>
                     <ul class="footer-contact">
-                        <li><i class="fas fa-map-marker-alt"></i> 123 Education St, SF, CA</li>
-                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-                        <li><i class="fas fa-envelope"></i> support@edupredict.com</li>
-                        <li><i class="fas fa-clock"></i> Mon-Fri, 9am-6pm</li>
+                        <li><i class="fas fa-phone"></i> +91 955154 16932</li>
+                        <li><i class="fas fa-envelope"></i> edupredict12@gmail.com</li>
+                        <li><i class="fas fa-clock"></i> Mon–Fri, 9 am – 12 pm</li>
                     </ul>
                 </div>
+
             </div>
+
             <div class="footer-bottom">
-                <p>&copy; 2024 EduPredict. All rights reserved. | 
-                   <a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="#">Cookies</a>
-                </p>
+                <p>&copy; 2026 EduPredict. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
 
@@ -1242,6 +1445,61 @@
                 if (target) target.scrollIntoView({ behavior: 'smooth' });
             });
         });
+    </script>
+    <!-- How It Works interactive stepper -->
+    <script>
+    (function() {
+        const TOTAL = 5;
+        let current = 0;
+
+        const panels   = Array.from({length: TOTAL}, (_, i) => document.getElementById('hpanel-' + i));
+        const circles  = document.querySelectorAll('.hpt-circle');
+        const dots     = document.querySelectorAll('.how-dot');
+        const lines    = Array.from({length: TOTAL - 1}, (_, i) => document.getElementById('hline-' + i));
+        const prevBtn  = document.getElementById('how-prev');
+        const nextBtn  = document.getElementById('how-next');
+
+        function goTo(n) {
+            if (n < 0 || n >= TOTAL) return;
+
+            // panels
+            panels[current].classList.remove('active');
+            panels[n].classList.add('active');
+
+            // circles
+            circles.forEach((c, i) => {
+                c.classList.remove('active', 'done');
+                if (i < n)  c.classList.add('done');
+                if (i === n) c.classList.add('active');
+            });
+
+            // connector lines
+            lines.forEach((l, i) => {
+                l.classList.toggle('done', i < n);
+            });
+
+            // dots
+            dots.forEach((d, i) => d.classList.toggle('active', i === n));
+
+            current = n;
+        }
+
+        // Stepper circles click
+        circles.forEach(c => c.addEventListener('click', () => goTo(+c.dataset.step)));
+
+        // Dot clicks
+        dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.step)));
+
+        // Prev / Next
+        prevBtn.addEventListener('click', () => goTo(current - 1));
+        nextBtn.addEventListener('click', () => goTo(current + 1));
+
+        // Auto-advance every 6s
+        let timer = setInterval(() => goTo((current + 1) % TOTAL), 6000);
+        document.getElementById('how-it-works').addEventListener('click', () => {
+            clearInterval(timer);
+        });
+    })();
     </script>
 </body>
 </html>

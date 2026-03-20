@@ -1,308 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - EduPredict</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .signup-container { width: 100%; max-width: 500px; }
-        .signup-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 35px 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-        }
-        .signup-header { text-align: center; margin-bottom: 25px; }
-        .signup-header i { font-size: 50px; color: #ffd700; margin-bottom: 10px; }
-        .signup-header h2 { font-size: 26px; font-weight: 700; margin-bottom: 5px; }
-        .signup-header p { color: rgba(255, 255, 255, 0.7); font-size: 14px; }
-        .alert-error {
-            background: rgba(255, 77, 77, 0.2);
-            border: 1px solid rgba(255, 77, 77, 0.5);
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 13px;
-            color: #ffaaaa;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 18px;
-        }
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 5px; font-size: 13px; font-weight: 500; }
-        .input-group { position: relative; }
-        .input-group i {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ffd700;
-            font-size: 15px;
-            z-index: 1;
-        }
-        .form-control {
-            width: 100%;
-            padding: 11px 11px 11px 38px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            border-radius: 8px;
-            font-size: 14px;
-            color: #fff;
-            transition: all 0.3s;
-        }
-        .form-control:focus {
-            outline: none;
-            border-color: #ffd700;
-            background: rgba(255, 255, 255, 0.15);
-        }
-        .form-control::placeholder { color: rgba(255, 255, 255, 0.5); }
-        select.form-control {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffd700'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-            background-color: transparent;
-        }
-        select.form-control option { background: #333; color: #fff; }
-        .password-strength {
-            margin-top: 5px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        .strength-bar { height: 100%; width: 0%; transition: all 0.3s; }
-        .strength-text { font-size: 11px; margin-top: 3px; color: rgba(255, 255, 255, 0.7); }
-        .terms { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
-        .terms input { width: 16px; height: 16px; accent-color: #ffd700; }
-        .terms label { font-size: 13px; }
-        .terms a { color: #ffd700; text-decoration: none; }
-        .terms a:hover { text-decoration: underline; }
-        .btn-action {
-            width: 100%;
-            background: #ffd700;
-            color: #333;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            font-family: 'Poppins', sans-serif;
-        }
-        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4); }
-        .divider { text-align: center; margin: 20px 0; position: relative; }
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .divider span {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0 15px;
-            position: relative;
-            z-index: 1;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        .social-signup { display: flex; gap: 10px; margin-bottom: 20px; }
-        .social-btn {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 8px;
-            padding: 10px;
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        .social-btn:hover { background: #ffd700; color: #333; }
-        .login-link { text-align: center; font-size: 14px; }
-        .login-link a { color: #ffd700; text-decoration: none; font-weight: 600; }
-        .login-link a:hover { text-decoration: underline; }
-        .back-home { text-align: center; margin-top: 15px; }
-        .back-home a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 13px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .back-home a:hover { color: #ffd700; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        @media (max-width: 480px) {
-            .form-row { grid-template-columns: 1fr; gap: 0; }
-            .signup-card { padding: 25px 20px; }
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Sign Up - EduPredict</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+:root{
+  --primary:#667eea;--secondary:#764ba2;
+  --grad:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+  --gold:#ffd700;--white:#fff;--text:#333;--muted:#666;
+  --border:#e0e0e0;--red:#ff4d4d;--green:#28a745;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--grad);
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:28px 20px;
+  position:relative;overflow:hidden;
+}
+body::before,body::after{
+  content:'';position:absolute;border-radius:50%;
+  background:rgba(255,255,255,0.06);pointer-events:none;
+}
+body::before{width:420px;height:420px;top:-130px;right:-110px;}
+body::after{width:320px;height:320px;bottom:-90px;left:-90px;}
+
+.card{
+  background:var(--white);border-radius:22px;
+  padding:46px 44px;width:100%;max-width:500px;
+  box-shadow:0 24px 64px rgba(0,0,0,0.18);
+  position:relative;z-index:2;
+  animation:slideUp .5s cubic-bezier(.34,1.56,.64,1);
+}
+
+/* ── Logo ── */
+.logo{text-align:center;margin-bottom:30px}
+.logo-icon{
+  width:68px;height:68px;background:var(--grad);border-radius:18px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:28px;margin-bottom:12px;
+  box-shadow:0 8px 20px rgba(102,126,234,.4);
+}
+.logo h1{
+  font-size:26px;font-weight:800;
+  background:var(--grad);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text;
+}
+.logo p{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* ── Social buttons ── */
+.social-row{display:flex;gap:10px;margin-bottom:22px}
+.social-btn{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px;border-radius:10px;border:2px solid var(--border);
+  background:#fff;font-family:'Poppins',sans-serif;
+  font-size:13px;font-weight:600;cursor:pointer;
+  text-decoration:none;color:#555;transition:all .25s;
+}
+.social-btn:hover{border-color:var(--primary);background:#f0f3ff;color:var(--primary)}
+/* Google coloured logo */
+.g-logo{
+  width:18px;height:18px;flex-shrink:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23EA4335' d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z'/%3E%3Cpath fill='%234285F4' d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z'/%3E%3Cpath fill='%23FBBC05' d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z'/%3E%3Cpath fill='%2334A853' d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+/* LinkedIn blue */
+.social-btn.linkedin:hover{border-color:#0077b5;background:#e8f4fb;color:#0077b5}
+.social-btn.linkedin i{color:#0077b5}
+
+/* ── Divider ── */
+.divider{
+  display:flex;align-items:center;gap:12px;
+  margin:0 0 22px;color:var(--muted);font-size:12px;font-weight:600;
+}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#eee}
+
+/* ── Error ── */
+.alert-error{
+  background:#ffe5e5;border:1px solid #f5c6cb;color:var(--red);
+  padding:12px 16px;border-radius:10px;font-size:13px;
+  margin-bottom:20px;display:flex;align-items:center;gap:9px;
+}
+
+/* ── Form ── */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{margin-bottom:16px}
+label{display:block;margin-bottom:7px;font-weight:500;font-size:13px;color:#555}
+label i{color:var(--primary);margin-right:7px;width:16px}
+.input-wrap{position:relative}
+input[type=text],input[type=email],input[type=password],select{
+  width:100%;padding:12px 14px;
+  border:2px solid var(--border);border-radius:10px;
+  font-family:'Poppins',sans-serif;font-size:13px;
+  transition:all .25s;outline:none;color:var(--text);
+  background:#fff;
+}
+input:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(102,126,234,.12)}
+input::placeholder{color:#bbb}
+select{
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23667eea'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;background-size:18px;
+  cursor:pointer;
+}
+.toggle-pw{
+  position:absolute;right:13px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;padding:4px;
+}
+
+/* role-dependent social hint */
+.social-hint{
+  font-size:11px;color:var(--muted);margin-top:6px;
+  display:none;align-items:center;gap:5px;
+}
+.social-hint.show{display:flex}
+.social-hint i{color:var(--primary)}
+
+/* Password strength */
+.strength-wrap{margin-top:6px}
+.strength-bar-bg{height:4px;background:#f0f0f0;border-radius:2px;overflow:hidden}
+.strength-bar{height:100%;width:0;transition:all .3s;border-radius:2px}
+.strength-text{font-size:11px;color:var(--muted);margin-top:4px}
+
+/* Terms */
+.terms-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:20px}
+.terms-row input{width:15px;height:15px;accent-color:var(--primary);margin-top:2px;flex-shrink:0}
+.terms-row label{font-size:13px;color:#555;line-height:1.4;cursor:pointer}
+.terms-row a{color:var(--primary);font-weight:600;text-decoration:none}
+.terms-row a:hover{text-decoration:underline}
+
+/* Submit button */
+.btn-submit{
+  width:100%;background:var(--grad);color:#fff;
+  padding:14px;border:none;border-radius:10px;
+  font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;
+  cursor:pointer;transition:all .3s;
+  box-shadow:0 4px 14px rgba(102,126,234,.4);
+  display:flex;align-items:center;justify-content:center;gap:9px;
+}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(102,126,234,.5)}
+
+/* Footer links */
+.link-row{text-align:center;font-size:13px;color:var(--muted);margin-top:18px}
+.link-row a{color:var(--primary);font-weight:600;text-decoration:none}
+.link-row a:hover{text-decoration:underline}
+.back-link{
+  text-align:center;margin-top:10px;font-size:12px;
+}
+.back-link a{
+  color:var(--muted);text-decoration:none;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.back-link a:hover{color:var(--primary)}
+
+/* Data persistence info strip */
+.persist-strip{
+  background:#f0f3ff;border:1px solid #d8dcff;border-radius:10px;
+  padding:10px 14px;font-size:12px;color:#555;
+  margin-top:14px;display:flex;align-items:flex-start;gap:9px;
+}
+.persist-strip i{color:var(--primary);margin-top:1px;flex-shrink:0}
+
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:480px){
+  .card{padding:30px 22px}
+  .form-row{grid-template-columns:1fr}
+  .social-row{flex-direction:column}
+}
+</style>
 </head>
 <body>
-    <div class="signup-container" data-aos="fade-up">
-        <div class="signup-card">
-            <div class="signup-header">
-                <i class="fas fa-user-plus"></i>
-                <h2>Create Account</h2>
-                <p>Join EduPredict today</p>
-            </div>
+<div class="card">
 
-            {% if error %}
-            <div class="alert-error">
-                <i class="fas fa-exclamation-circle"></i>
-                {{ error }}
-            </div>
-            {% endif %}
+  <!-- Logo -->
+  <div class="logo">
+    <div class="logo-icon"><i class="fas fa-graduation-cap" style="color:var(--gold)"></i></div>
+    <h1>EduPredict</h1>
+    <p>Create your free account</p>
+  </div>
 
-            <form method="POST" action="/register">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>First Name</label>
-                        <div class="input-group">
-                            <i class="fas fa-user"></i>
-                            <input type="text" class="form-control" name="firstname" placeholder="First name" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Last Name</label>
-                        <div class="input-group">
-                            <i class="fas fa-user"></i>
-                            <input type="text" class="form-control" name="lastname" placeholder="Last name" required>
-                        </div>
-                    </div>
-                </div>
+  <!--
+    ═══════════════════════════════════════════════════
+    GOOGLE OAUTH SETUP (backend)
+    ───────────────────────────────────────────────────
+    1. Go to console.cloud.google.com
+    2. APIs & Services → Credentials → Create OAuth 2.0 Client ID
+    3. Application type: Web  |  Redirect URI: /auth/google/callback
+    4. pip install flask-dance
+    5. In app.py:
+         from flask_dance.contrib.google import make_google_blueprint, google
+         bp = make_google_blueprint(client_id="…", client_secret="…",
+                scope=["openid","email","profile"])
+         app.register_blueprint(bp, url_prefix="/auth")
+    ═══════════════════════════════════════════════════
+    LINKEDIN OAUTH SETUP (backend)
+    ───────────────────────────────────────────────────
+    1. Go to linkedin.com/developers → Create App
+    2. Products → Sign In with LinkedIn using OpenID Connect
+    3. Auth → Redirect URL: /auth/linkedin/callback
+    4. pip install flask-dance
+    5. In app.py:
+         from flask_dance.contrib.linkedin import make_linkedin_blueprint, linkedin
+         bp = make_linkedin_blueprint(client_id="…", client_secret="…",
+                scope=["openid","profile","email"])
+         app.register_blueprint(bp, url_prefix="/auth")
+    ═══════════════════════════════════════════════════
+  -->
 
-                <div class="form-group">
-                    <label>Email</label>
-                    <div class="input-group">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
-                    </div>
-                </div>
+  <!-- Social sign-up — role-aware (JS swaps based on selected role) -->
+  <div class="social-row">
+    <a class="social-btn" href="/auth/google" id="googleBtn">
+      <div class="g-logo"></div>
+      <span>Sign up with Google</span>
+    </a>
+    <!-- LinkedIn shown only for teachers; GitHub shown only for admins -->
+    <a class="social-btn linkedin" href="/auth/linkedin" id="linkedinBtn" style="display:none">
+      <i class="fab fa-linkedin" style="font-size:17px"></i>
+      <span>LinkedIn</span>
+    </a>
+    <a class="social-btn" href="/auth/github" id="githubBtn" style="display:none">
+      <i class="fab fa-github" style="font-size:17px;color:#333"></i>
+      <span>GitHub</span>
+    </a>
+  </div>
+  <!-- Role hint shown below social buttons -->
+  <div class="social-hint" id="socialHint">
+    <i class="fas fa-info-circle"></i>
+    <span id="hintText"></span>
+  </div>
 
-                <div class="form-group">
-                    <label>Username</label>
-                    <div class="input-group">
-                        <i class="fas fa-user-tag"></i>
-                        <input type="text" class="form-control" name="username" placeholder="Choose a username" required>
-                    </div>
-                </div>
+  <div class="divider" style="margin-top:14px">OR REGISTER WITH EMAIL</div>
 
-                <div class="form-group">
-                    <label>Password</label>
-                    <div class="input-group">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Create password" required>
-                    </div>
-                    <div class="password-strength">
-                        <div class="strength-bar" id="strengthBar"></div>
-                    </div>
-                    <div class="strength-text" id="strengthText"></div>
-                </div>
+  {% if error %}
+  <div class="alert-error"><i class="fas fa-exclamation-circle"></i> {{ error }}</div>
+  {% endif %}
 
-                <div class="form-group">
-                    <label>Role</label>
-                    <div class="input-group">
-                        <i class="fas fa-graduation-cap"></i>
-                        <select class="form-control" name="role" required>
-                            <option value="" disabled selected>Select your role</option>
-                            <option value="teacher">Teacher</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </div>
-                </div>
+  <form method="POST" action="/register">
 
-                <div class="terms">
-                    <input type="checkbox" id="terms" required>
-                    <label for="terms">I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a></label>
-                </div>
-
-                <button type="submit" class="btn-action">
-                    <i class="fas fa-user-plus"></i>
-                    <span>Create Account</span>
-                </button>
-            </form>
-
-            <div class="divider"><span>OR</span></div>
-
-            <div class="social-signup">
-                <a href="#" class="social-btn"><i class="fab fa-google"></i> Google</a>
-                <a href="#" class="social-btn"><i class="fab fa-github"></i> GitHub</a>
-            </div>
-
-            <div class="login-link">
-                Already have an account? <a href="/login">Login</a>
-            </div>
-
-            <div class="back-home">
-                <a href="/"><i class="fas fa-arrow-left"></i> Back to Home</a>
-            </div>
-        </div>
+    <!-- Name row -->
+    <div class="form-row">
+      <div class="form-group">
+        <label><i class="fas fa-user"></i> First Name</label>
+        <input type="text" name="firstname" placeholder="First name" required autocomplete="given-name"/>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-user"></i> Last Name</label>
+        <input type="text" name="lastname" placeholder="Last name" required autocomplete="family-name"/>
+      </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ duration: 800, once: true });
+    <!-- Email -->
+    <div class="form-group">
+      <label><i class="fas fa-envelope"></i> Email</label>
+      <input type="email" name="email" placeholder="your@email.com" required autocomplete="email"/>
+    </div>
 
-        const password = document.getElementById('password');
-        const strengthBar = document.getElementById('strengthBar');
-        const strengthText = document.getElementById('strengthText');
+    <!-- Username -->
+    <div class="form-group">
+      <label><i class="fas fa-at"></i> Username</label>
+      <input type="text" name="username" placeholder="Choose a username" required autocomplete="username"/>
+    </div>
 
-        password.addEventListener('input', function() {
-            const val = this.value;
-            let strength = 0;
-            if (val.length >= 8) strength += 25;
-            if (val.match(/[a-z]+/)) strength += 25;
-            if (val.match(/[A-Z]+/)) strength += 25;
-            if (val.match(/[0-9]+/)) strength += 25;
-            strengthBar.style.width = strength + '%';
-            if (strength <= 25) {
-                strengthBar.style.background = '#ff4444';
-                strengthText.textContent = 'Weak password';
-            } else if (strength <= 50) {
-                strengthBar.style.background = '#ffa700';
-                strengthText.textContent = 'Fair password';
-            } else if (strength <= 75) {
-                strengthBar.style.background = '#ffd700';
-                strengthText.textContent = 'Good password';
-            } else {
-                strengthBar.style.background = '#00C851';
-                strengthText.textContent = 'Strong password';
-            }
-        });
-    </script>
+    <!-- Password -->
+    <div class="form-group">
+      <label><i class="fas fa-lock"></i> Password</label>
+      <div class="input-wrap">
+        <input type="password" name="password" id="password"
+               placeholder="Create a strong password" required autocomplete="new-password"/>
+        <button type="button" class="toggle-pw" onclick="togglePw()">
+          <i class="fas fa-eye" id="pw-eye"></i>
+        </button>
+      </div>
+      <div class="strength-wrap">
+        <div class="strength-bar-bg"><div class="strength-bar" id="strengthBar"></div></div>
+        <div class="strength-text" id="strengthText"></div>
+      </div>
+    </div>
+
+    <!-- Role -->
+    <div class="form-group">
+      <label><i class="fas fa-graduation-cap"></i> Role</label>
+      <select name="role" id="roleSelect" required onchange="updateSocialButtons()">
+        <option value="" disabled selected>Select your role</option>
+        <option value="teacher">Teacher</option>
+        <option value="admin">Administrator</option>
+      </select>
+    </div>
+
+    <!-- Terms -->
+    <div class="terms-row">
+      <input type="checkbox" id="terms" required/>
+      <label for="terms">
+        I agree to the <a href="/terms" target="_blank">Terms of Service</a>
+        and <a href="/privacy" target="_blank">Privacy Policy</a>.
+        My data is securely stored and synced across all devices.
+      </label>
+    </div>
+
+    <button type="submit" class="btn-submit">
+      <i class="fas fa-user-plus"></i> Create Account
+    </button>
+  </form>
+
+  <!-- Data persistence notice -->
+  <div class="persist-strip">
+    <i class="fas fa-cloud"></i>
+    <span>
+      <strong>Your data is synced across all devices.</strong>
+      Once you log in on any device or OS, all student records and predictions
+      are instantly available — stored securely in our central database.
+    </span>
+  </div>
+
+  <div class="link-row">
+    Already have an account? <a href="/login">Login here</a>
+    &nbsp;·&nbsp; <a href="/forgot-password">Forgot Password?</a>
+  </div>
+  <div class="back-link">
+    <a href="/"><i class="fas fa-arrow-left"></i> Back to Home</a>
+  </div>
+</div>
+
+<script>
+/* ── Password visibility ── */
+function togglePw(){
+  const f = document.getElementById('password');
+  const e = document.getElementById('pw-eye');
+  f.type = f.type === 'password' ? 'text' : 'password';
+  e.className = f.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+}
+
+/* ── Password strength ── */
+document.getElementById('password').addEventListener('input', function(){
+  const v = this.value;
+  let s = 0;
+  if(v.length >= 8) s+=25;
+  if(/[a-z]/.test(v)) s+=25;
+  if(/[A-Z]/.test(v)) s+=25;
+  if(/[0-9\W]/.test(v)) s+=25;
+  const bar  = document.getElementById('strengthBar');
+  const text = document.getElementById('strengthText');
+  bar.style.width = s+'%';
+  const map=[[25,'#ff4444','Weak'],[50,'#ffa700','Fair'],[75,'#ffd700','Good'],[100,'#00C851','Strong']];
+  const m=map.find(([t])=>s<=t)||map[3];
+  bar.style.background=m[1]; text.textContent=m[2]+' password';
+});
+
+/* ── Role-aware social buttons ── */
+function updateSocialButtons(){
+  const role      = document.getElementById('roleSelect').value;
+  const linkedin  = document.getElementById('linkedinBtn');
+  const github    = document.getElementById('githubBtn');
+  const hint      = document.getElementById('socialHint');
+  const hintText  = document.getElementById('hintText');
+
+  if(role === 'teacher'){
+    linkedin.style.display = 'flex';
+    github.style.display   = 'none';
+    hint.classList.add('show');
+    hintText.textContent = 'Teachers can also sign up using LinkedIn.';
+  } else if(role === 'admin'){
+    github.style.display   = 'flex';
+    linkedin.style.display = 'none';
+    hint.classList.add('show');
+    hintText.textContent = 'Administrators can also sign up using GitHub.';
+  } else {
+    linkedin.style.display = 'none';
+    github.style.display   = 'none';
+    hint.classList.remove('show');
+  }
+}
+
+/* Run once on load in case role is pre-selected (e.g. back navigation) */
+updateSocialButtons();
+</script>
 </body>
 </html>
